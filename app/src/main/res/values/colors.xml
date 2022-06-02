@@ -7,4 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- uOttawa Color Palette -->
+    <color name="garnet">#8E001A</color>
+    <color name="grey">#80746c</color>
+    <color name="polar_grey">#f2f2f2</color>
+    <color name="light_grey">#aca39a</color>
+    <color name="charcoal_grey">#2d2d2c</color>
+
+
 </resources>

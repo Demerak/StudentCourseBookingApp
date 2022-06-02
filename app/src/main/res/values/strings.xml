@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">StudentCourseBookingApp</string>
+    <string name="SignIn">Sign In</string>
 </resources>
