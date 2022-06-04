@@ -45,6 +45,15 @@ public class MainActivity extends AppCompatActivity {
         signInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (emailOrUsername.getText().toString().equals(getResources().getString(R.string.userName))
+                        || pwd.getText().toString().equals(getResources().getString(R.string.pwd))) {
+                    emailOrUsername.setTextColor(getResources().getColor(R.color.garnet));
+                    pwd.setTextColor(getResources().getColor(R.color.garnet));
+                    Toast.makeText(MainActivity.this, "Enter your Username or Email and Password", Toast.LENGTH_LONG).show();
+                }
+                validAuth();
+
+                // todo remove this bellow latter
                 if(emailOrUsername.getText().toString().equals("admin") && pwd.getText().toString().equals("admin123")) {
                     Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
                 } else {
@@ -106,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void validAuth() {
         //todo
-        String email;
+
     }
 
     private void sendUserToSignUpActivity() {

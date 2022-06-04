@@ -1,5 +1,6 @@
 package com.example.studentcoursebookingapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -9,6 +10,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -22,6 +29,9 @@ public class SignUpActivity extends AppCompatActivity {
     private Button signInBtn;
     private Button studentBtn;
     private Button instructorBtn;
+
+    private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
 
 
     @Override
@@ -43,10 +53,21 @@ public class SignUpActivity extends AppCompatActivity {
         studentBtn.setOnClickListener(userTypeSelection);
         instructorBtn.setOnClickListener(userTypeSelection);
 
+        mAuth = FirebaseAuth.getInstance();
+        mUser=mAuth.getCurrentUser();
+
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (emailOrUsername.getText().toString().equals(getResources().getString(R.string.userName))
+                        || pwd.getText().toString().equals(getResources().getString(R.string.pwd))) {
+                    emailOrUsername.setTextColor(getResources().getColor(R.color.garnet));
+                    pwd.setTextColor(getResources().getColor(R.color.garnet));
+                    Toast.makeText(SignUpActivity.this, "Enter your Username or Email and Password", Toast.LENGTH_LONG).show();
+                }
+                validAuth();
 
+                // todo remove this bellow latter
                 if(emailOrUsername.getText().toString().equals("admin") && pwd.getText().toString().equals("admin123")) {
                     Toast.makeText(SignUpActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
                 } else {
@@ -54,6 +75,7 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
+
 
         signInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +128,31 @@ public class SignUpActivity extends AppCompatActivity {
         TextView entry = (TextView) v;
         entry.setText("");
         entry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+    }
+
+    private void validAuth() {
+        // todo
+        String inputEmailOrUsername = emailOrUsername.getText().toString();
+        String inputPwd = pwd.getText().toString();
+        String inputConfPwd = pwdConf.getText().toString();
+
+        if (!inputPwd.equals(inputConfPwd)) {
+            // todo
+        } else{
+            // Firebase doesn't support username & password login, need to explore https://firebase.google.com/docs/auth/android/custom-auth
+            mAuth.createUserWithEmailAndPassword(inputEmailOrUsername, inputPwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        // todo display that successful
+                        Toast.makeText(SignUpActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // todo display that unsuccessful
+                        Toast.makeText(SignUpActivity.this, "Registration Failed", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
     }
 
     private void sendUserToSignInActivity() {
