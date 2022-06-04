@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -11,18 +12,35 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    private String userType;
+    private TextView emailOrUsername;
+    private TextView pwd;
+    private Button signInBtn;
+    private Button signUpBtn;
+    private Button studentBtn;
+    private Button instructorBtn;
+    private Button adminBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView emailOrUsername = (TextView) findViewById(R.id.email);
-        TextView pwd = (TextView) findViewById(R.id.pwd);
-        Button signInBtn = (Button) findViewById(R.id.signInBtn);
-        Button signUpBtn = (Button) findViewById(R.id.signUpBtn);
+        emailOrUsername = (TextView) findViewById(R.id.email);
+        pwd = (TextView) findViewById(R.id.pwd);
+        signInBtn = (Button) findViewById(R.id.signInBtn);
+        signUpBtn = (Button) findViewById(R.id.signUpBtn);
+
+        studentBtn = (Button) findViewById(R.id.student);
+        instructorBtn = (Button) findViewById(R.id.instructor);
+        adminBtn = (Button) findViewById(R.id.admin);
 
         emailOrUsername.setOnClickListener(editTextOnClickListener);
         pwd.setOnClickListener(editTextOnClickListener);
+
+        studentBtn.setOnClickListener(userTypeSelection);
+        instructorBtn.setOnClickListener(userTypeSelection);
+        adminBtn.setOnClickListener(userTypeSelection);
 
         signInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,6 +61,32 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private View.OnClickListener userTypeSelection = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            userTypeSelection(v);
+        }
+    };
+
+    private void userTypeSelection(View v) {
+        Button userTypeSel = (Button) v;
+        userType = userTypeSel.getText().toString();
+        if (userTypeSel.getId() == studentBtn.getId()) {
+            studentBtn.setBackground(getResources().getDrawable(R.drawable.left_rounded_button_red));
+            instructorBtn.setBackground(getResources().getDrawable(R.drawable.mid_rounded_button));
+            adminBtn.setBackground(getResources().getDrawable(R.drawable.right_rounded_button));
+        } else if (userTypeSel.getId() == instructorBtn.getId()) {
+            studentBtn.setBackground(getResources().getDrawable(R.drawable.left_rounded_button));
+            instructorBtn.setBackground(getResources().getDrawable(R.drawable.mid_rounded_button_red));
+            adminBtn.setBackground(getResources().getDrawable(R.drawable.right_rounded_button));
+        } else if (userTypeSel.getId() == adminBtn.getId()) {
+            studentBtn.setBackground(getResources().getDrawable(R.drawable.left_rounded_button));
+            instructorBtn.setBackground(getResources().getDrawable(R.drawable.mid_rounded_button));
+            adminBtn.setBackground(getResources().getDrawable(R.drawable.right_rounded_button_red));
+        }
+        Toast.makeText(MainActivity.this, userType, Toast.LENGTH_LONG).show(); // todo remove
+    }
+
     private View.OnClickListener editTextOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -51,11 +95,17 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private void clearEditText(View v) {
-        TextView entry = (TextView) v;
-        entry.setText("");
+        if (v.getId() == pwd.getId()) {
+            pwd.setText("");
+            pwd.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        } else {
+            TextView entry = (TextView) v;
+            entry.setText("");
+        }
     }
 
     private void validAuth() {
+        //todo
         String email;
     }
 
@@ -64,5 +114,4 @@ public class MainActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
-
 }

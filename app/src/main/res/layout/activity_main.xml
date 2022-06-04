@@ -14,7 +14,7 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/rounded_edittext"
         android:ems="10"
-        android:inputType="textPassword"
+        android:inputType="text"
         android:padding="10dp"
         android:drawableStart="@drawable/ic_baseline_lock_24"
         android:drawableLeft="@drawable/ic_baseline_lock_24"
@@ -108,7 +108,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/left_rounded_button"
             android:layout_weight="1"
-            android:text="Student"
+            android:text="@string/student"
             android:textColor="@color/white"
             android:textSize="12sp" />
 
@@ -118,7 +118,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/mid_rounded_button"
             android:layout_weight="1"
-            android:text="Instructor"
+            android:text="@string/instructor"
             android:textColor="@color/white"
             android:textSize="12sp" />
 
@@ -128,7 +128,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/right_rounded_button"
             android:layout_weight="1"
-            android:text="Admin"
+            android:text="@string/admin"
             android:textColor="@color/white"
             android:textSize="12sp" />
 

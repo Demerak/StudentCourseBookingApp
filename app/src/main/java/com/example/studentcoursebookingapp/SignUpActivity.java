@@ -2,6 +2,7 @@ package com.example.studentcoursebookingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -18,8 +19,10 @@ public class SignUpActivity extends AppCompatActivity {
     private TextView pwd;
     private TextView pwdConf;
     private Button signUpBtn;
+    private Button signInBtn;
     private Button studentBtn;
     private Button instructorBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,7 @@ public class SignUpActivity extends AppCompatActivity {
         pwd = (TextView) findViewById(R.id.pwd);
         pwdConf = (TextView) findViewById(R.id.pwdconf);
         signUpBtn = (Button) findViewById(R.id.signUpBtn);
+        signInBtn = (Button) findViewById(R.id.signInBtn);
         studentBtn = (Button) findViewById(R.id.student);
         instructorBtn = (Button) findViewById(R.id.instructor);
 
@@ -48,6 +52,13 @@ public class SignUpActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(SignUpActivity.this, "Login Failed", Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+
+        signInBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendUserToSignInActivity();
             }
         });
     }
@@ -69,7 +80,7 @@ public class SignUpActivity extends AppCompatActivity {
             instructorBtn.setBackground(getResources().getDrawable(R.drawable.right_rounded_button_red));
             studentBtn.setBackground(getResources().getDrawable(R.drawable.left_rounded_button));
         }
-        Toast.makeText(SignUpActivity.this, userType, Toast.LENGTH_LONG).show();
+        Toast.makeText(SignUpActivity.this, userType, Toast.LENGTH_LONG).show(); // todo remove
     }
 
     private View.OnClickListener editTextOnClickListener = new View.OnClickListener() {
@@ -95,5 +106,11 @@ public class SignUpActivity extends AppCompatActivity {
         TextView entry = (TextView) v;
         entry.setText("");
         entry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+    }
+
+    private void sendUserToSignInActivity() {
+        Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }
