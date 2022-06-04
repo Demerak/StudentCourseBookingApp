@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_grey"
-    tools:context=".MainActivity">
+    tools:context=".SignUpActivity">
 
     <EditText
         android:id="@+id/pwd"
@@ -14,7 +14,7 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/rounded_edittext"
         android:ems="10"
-        android:inputType="textPassword"
+        android:inputType="text"
         android:padding="10dp"
         android:drawableStart="@drawable/ic_baseline_lock_24"
         android:drawableLeft="@drawable/ic_baseline_lock_24"
@@ -24,6 +24,24 @@
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email" />
+
+    <EditText
+        android:id="@+id/pwdconf"
+        android:layout_width="320dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_edittext"
+        android:drawableStart="@drawable/ic_baseline_lock_24"
+        android:drawableLeft="@drawable/ic_baseline_lock_24"
+        android:drawablePadding="5dp"
+        android:ems="10"
+        android:inputType="text"
+        android:padding="10dp"
+        android:text="@string/confirmPwd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pwd" />
 
     <EditText
         android:id="@+id/email"
@@ -54,61 +72,35 @@
         app:srcCompat="@drawable/uottawa_hor_black" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/signInBtn"
+        android:id="@+id/signUpBtn"
         android:layout_width="169dp"
         android:layout_height="55dp"
         android:layout_marginTop="32dp"
         android:background="@color/garnet"
-        android:text="@string/SignIn"
+        android:text="@string/SignUp"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
 
     <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="409dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signInBtn"
-        app:layout_constraintVertical_bias="0.115">
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Don't have an account?"
-            android:textColor="@color/black" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/signUpBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:text="Sign Up!" />
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/linearLayout4"
         android:layout_width="320dp"
         android:layout_height="50dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="26dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pwd">
+        app:layout_constraintTop_toBottomOf="@+id/pwdconf">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/student"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/left_rounded_button"
             android:layout_weight="1"
-            android:text="Student"
+            android:background="@drawable/left_rounded_button"
+            android:text="@string/student"
             android:textColor="@color/white"
             android:textSize="12sp" />
 
@@ -116,21 +108,12 @@
             android:id="@+id/instructor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/mid_rounded_button"
             android:layout_weight="1"
-            android:text="Instructor"
+            android:background="@drawable/right_rounded_button"
+            android:text="@string/instructor"
             android:textColor="@color/white"
             android:textSize="12sp" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/admin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/right_rounded_button"
-            android:layout_weight="1"
-            android:text="Admin"
-            android:textColor="@color/white"
-            android:textSize="12sp" />
 
     </LinearLayout>
 

@@ -2,6 +2,7 @@ package com.example.studentcoursebookingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,22 +16,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView email = (TextView) findViewById(R.id.email);
+        TextView emailOrUsername = (TextView) findViewById(R.id.email);
         TextView pwd = (TextView) findViewById(R.id.pwd);
         Button signInBtn = (Button) findViewById(R.id.signInBtn);
-        Button singUpBtn = (Button) findViewById(R.id.signUpBtn);
+        Button signUpBtn = (Button) findViewById(R.id.signUpBtn);
 
-        email.setOnClickListener(editTextOnClickListener);
+        emailOrUsername.setOnClickListener(editTextOnClickListener);
         pwd.setOnClickListener(editTextOnClickListener);
 
         signInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(email.getText().toString().equals("admin") && pwd.getText().toString().equals("admin123")) {
+                if(emailOrUsername.getText().toString().equals("admin") && pwd.getText().toString().equals("admin123")) {
                     Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(MainActivity.this, "Login Failed", Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+
+        signUpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendUserToSignUpActivity();
             }
         });
     }
@@ -46,4 +54,15 @@ public class MainActivity extends AppCompatActivity {
         TextView entry = (TextView) v;
         entry.setText("");
     }
+
+    private void validAuth() {
+        String email;
+    }
+
+    private void sendUserToSignUpActivity() {
+        Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
 }
