@@ -13,12 +13,12 @@
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/rounded_edittext"
-        android:ems="10"
-        android:inputType="text"
-        android:padding="10dp"
         android:drawableStart="@drawable/ic_baseline_lock_24"
         android:drawableLeft="@drawable/ic_baseline_lock_24"
         android:drawablePadding="5dp"
+        android:ems="10"
+        android:inputType="text"
+        android:padding="10dp"
         android:text="@string/pwd"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -31,12 +31,12 @@
         android:layout_height="50dp"
         android:layout_marginTop="120dp"
         android:background="@drawable/rounded_edittext"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        android:padding="10dp"
         android:drawableStart="@drawable/ic_baseline_person_24"
         android:drawableLeft="@drawable/ic_baseline_person_24"
         android:drawablePadding="5dp"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:padding="10dp"
         android:text="@string/userName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -57,13 +57,13 @@
         android:id="@+id/signInBtn"
         android:layout_width="169dp"
         android:layout_height="55dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginBottom="135dp"
         android:background="@color/garnet"
         android:text="@string/SignIn"
         android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -90,48 +90,6 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:text="Sign Up!" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout4"
-        android:layout_width="320dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pwd">
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/student"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/left_rounded_button"
-            android:layout_weight="1"
-            android:text="@string/student"
-            android:textColor="@color/white"
-            android:textSize="12sp" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/instructor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/mid_rounded_button"
-            android:layout_weight="1"
-            android:text="@string/instructor"
-            android:textColor="@color/white"
-            android:textSize="12sp" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/admin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/right_rounded_button"
-            android:layout_weight="1"
-            android:text="@string/admin"
-            android:textColor="@color/white"
-            android:textSize="12sp" />
-
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

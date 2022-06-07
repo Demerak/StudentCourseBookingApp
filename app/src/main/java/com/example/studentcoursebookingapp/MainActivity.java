@@ -1,100 +1,90 @@
 package com.example.studentcoursebookingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import androidx.annotation.NonNull;
 
 public class MainActivity extends AppCompatActivity {
 
     private String userType;
-    private TextView emailOrUsername;
-    private TextView pwd;
+    private EditText userNameTextField;
+    private EditText pwdTextField;
     private Button signInBtn;
     private Button signUpBtn;
     private Button studentBtn;
     private Button instructorBtn;
     private Button adminBtn;
 
+    private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        emailOrUsername = (TextView) findViewById(R.id.email);
-        pwd = (TextView) findViewById(R.id.pwd);
+        userNameTextField = (EditText) findViewById(R.id.email);
+        pwdTextField = (EditText) findViewById(R.id.pwd);
         signInBtn = (Button) findViewById(R.id.signInBtn);
         signUpBtn = (Button) findViewById(R.id.signUpBtn);
 
-        studentBtn = (Button) findViewById(R.id.student);
-        instructorBtn = (Button) findViewById(R.id.instructor);
-        adminBtn = (Button) findViewById(R.id.admin);
+        userNameTextField.setOnClickListener(editTextOnClickListener);
+        userNameTextField.setOnEditorActionListener(userNameListener);
 
-        emailOrUsername.setOnClickListener(editTextOnClickListener);
-        pwd.setOnClickListener(editTextOnClickListener);
+        pwdTextField.setOnClickListener(editTextOnClickListener);
+        pwdTextField.setOnEditorActionListener(passwordListener);
 
-        studentBtn.setOnClickListener(userTypeSelection);
-        instructorBtn.setOnClickListener(userTypeSelection);
-        adminBtn.setOnClickListener(userTypeSelection);
+        signInBtn.setOnClickListener(signIn);
+        signUpBtn.setOnClickListener(signUp);
 
-        signInBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (emailOrUsername.getText().toString().equals(getResources().getString(R.string.userName))
-                        || pwd.getText().toString().equals(getResources().getString(R.string.pwd))) {
-                    emailOrUsername.setTextColor(getResources().getColor(R.color.garnet));
-                    pwd.setTextColor(getResources().getColor(R.color.garnet));
-                    Toast.makeText(MainActivity.this, "Enter your Username or Email and Password", Toast.LENGTH_LONG).show();
-                }
-                validAuth();
-
-                // todo remove this bellow latter
-                if(emailOrUsername.getText().toString().equals("admin") && pwd.getText().toString().equals("admin123")) {
-                    Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(MainActivity.this, "Login Failed", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
-        signUpBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendUserToSignUpActivity();
-            }
-        });
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
     }
 
-    private View.OnClickListener userTypeSelection = new View.OnClickListener() {
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and if so send to home.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        if (currentUser != null) {
+            sendUserToHome();
+        }
+    }
+
+    /*////////////////////////////////////////////////////////////////////////////////////
+    INPUT METHODS
+    ////////////////////////////////////////////////////////////////////////////////////*/
+    private View.OnClickListener signUp = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            userTypeSelection(v);
+            sendUserToSignUpActivity();
         }
     };
-
-    private void userTypeSelection(View v) {
-        Button userTypeSel = (Button) v;
-        userType = userTypeSel.getText().toString();
-        if (userTypeSel.getId() == studentBtn.getId()) {
-            studentBtn.setBackground(getResources().getDrawable(R.drawable.left_rounded_button_red));
-            instructorBtn.setBackground(getResources().getDrawable(R.drawable.mid_rounded_button));
-            adminBtn.setBackground(getResources().getDrawable(R.drawable.right_rounded_button));
-        } else if (userTypeSel.getId() == instructorBtn.getId()) {
-            studentBtn.setBackground(getResources().getDrawable(R.drawable.left_rounded_button));
-            instructorBtn.setBackground(getResources().getDrawable(R.drawable.mid_rounded_button_red));
-            adminBtn.setBackground(getResources().getDrawable(R.drawable.right_rounded_button));
-        } else if (userTypeSel.getId() == adminBtn.getId()) {
-            studentBtn.setBackground(getResources().getDrawable(R.drawable.left_rounded_button));
-            instructorBtn.setBackground(getResources().getDrawable(R.drawable.mid_rounded_button));
-            adminBtn.setBackground(getResources().getDrawable(R.drawable.right_rounded_button_red));
-        }
-        Toast.makeText(MainActivity.this, userType, Toast.LENGTH_LONG).show(); // todo remove
+    private void sendUserToSignUpActivity() {
+        Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
+    //---------------------------------//
+    //---------------------------------//
 
     private View.OnClickListener editTextOnClickListener = new View.OnClickListener() {
         @Override
@@ -104,23 +94,86 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private void clearEditText(View v) {
-        if (v.getId() == pwd.getId()) {
-            pwd.setText("");
-            pwd.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        if (v.getId() == pwdTextField.getId()) {
+            pwdTextField.setText("");
+            pwdTextField.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         } else {
             TextView entry = (TextView) v;
             entry.setText("");
         }
     }
 
-    private void validAuth() {
-        //todo
+    //---------------------------------//
+    //---------------------------------//
 
-    }
+    TextView.OnEditorActionListener userNameListener = new TextView.OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if ((actionId == EditorInfo.IME_ACTION_DONE)) {
+                pwdTextField.requestFocus();
+            }
+            return false;
+        }
+    };
 
-    private void sendUserToSignUpActivity() {
-        Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
+    // ensures that the enter button in the keyboard signs in the user
+    TextView.OnEditorActionListener passwordListener = new TextView.OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if ((actionId == EditorInfo.IME_ACTION_DONE)) {
+                signInMethod();
+            }
+        return false;
+        }
+    };
+
+    /*////////////////////////////////////////////////////////////////////////////////////
+    SIGN IN METHODS
+    ////////////////////////////////////////////////////////////////////////////////////*/
+    //Sends user to page after login screen
+    private void sendUserToHome() {
+        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+    private View.OnClickListener signIn = new View.OnClickListener(){
+        @Override
+        public void onClick(View v) {
+            signInMethod();
+        }
+
+    };
+
+    private void signInMethod() {
+        String initialUserName = getResources().getString(R.string.userName);
+        String initialPassword = getResources().getString(R.string.pwd);
+        String userName = userNameTextField.getText().toString();
+        String password = pwdTextField.getText().toString();
+
+        if (userName.equals(initialUserName) || password.equals(initialPassword) || userName.equals("") || password.equals("")) {
+            Toast.makeText(MainActivity.this, "Enter your Username or Email and Password",
+                    Toast.LENGTH_LONG).show();
+        } else {
+            // Auth user and sign in
+            // adding @uottawa.ca string to username so sign in can only user username without email
+            mAuth.signInWithEmailAndPassword(userName + "@uottawa.ca", password)
+                    .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, send user to home
+                                Log.d("TAG", "signInWithEmail:success");
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                sendUserToHome();
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w("TAG", "signInWithEmail:failure", task.getException());
+                                Toast.makeText(MainActivity.this, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        }
     }
 }

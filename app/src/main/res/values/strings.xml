@@ -2,7 +2,7 @@
     <string name="app_name">StudentCourseBookingApp</string>
     <string name="SignIn">SIGN IN</string>
     <string name="SignUp">SIGN UP</string>
-    <string name="userName">Email or Username</string>
+    <string name="userName">Username</string>
     <string name="pwd">Password</string>
     <string name="confirmPwd">Confirm Password</string>
     <string name="student">student</string>
