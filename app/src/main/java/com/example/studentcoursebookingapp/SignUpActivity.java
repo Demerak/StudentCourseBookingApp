@@ -30,6 +30,7 @@ import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
 
+
     private String userType;
     private Button prevButtonSelected;
 
