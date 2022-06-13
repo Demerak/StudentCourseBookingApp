@@ -2,11 +2,15 @@ package com.example.studentcoursebookingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,11 +44,17 @@ public class HomeActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        usr_name = (TextView) findViewById(R.id.user_text);
-        usr_role = (TextView) findViewById(R.id.user_role_text);
+        usr_name = findViewById(R.id.user_text);
+        usr_role = findViewById(R.id.user_role_text);
 
-        signOutButton = (Button) findViewById(R.id.signOutButton);
+        signOutButton = findViewById(R.id.signOutButton);
         signOutButton.setOnClickListener(signOut);
+
+
+        Window window = getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(Color.parseColor("#8E001A"));
 
     }
 

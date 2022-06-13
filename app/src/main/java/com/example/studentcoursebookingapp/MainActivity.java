@@ -2,6 +2,7 @@ package com.example.studentcoursebookingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,35 +24,38 @@ import androidx.annotation.NonNull;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String userType;
     private EditText userNameTextField;
     private EditText pwdTextField;
     private Button signInBtn;
     private Button signUpBtn;
-    private Button studentBtn;
-    private Button instructorBtn;
-    private Button adminBtn;
+
+    private String defaultUserName;
+    private String defaultPassword;
 
     private FirebaseAuth mAuth;
-    private FirebaseUser mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        userNameTextField = (EditText) findViewById(R.id.email);
-        pwdTextField = (EditText) findViewById(R.id.pwd);
-        signInBtn = (Button) findViewById(R.id.signInBtn);
-        signUpBtn = (Button) findViewById(R.id.signUpBtn);
+        defaultUserName = getResources().getString(R.string.userName);
+        defaultPassword = getResources().getString(R.string.pwd);
 
-        userNameTextField.setOnClickListener(editTextOnClickListener);
+        userNameTextField = findViewById(R.id.email);
+        pwdTextField = findViewById(R.id.pwd);
+        signInBtn = findViewById(R.id.signInBtn);
+        signUpBtn = findViewById(R.id.signUpBtn);
+
         userNameTextField.setOnEditorActionListener(userNameListener);
+        userNameTextField.setOnFocusChangeListener(onFocusListener);
 
-        pwdTextField.setOnClickListener(editTextOnClickListener);
         pwdTextField.setOnEditorActionListener(passwordListener);
+        pwdTextField.setOnFocusChangeListener(onFocusListener);
 
         signInBtn.setOnClickListener(signIn);
+        signInBtn.setOnFocusChangeListener(signInFocusListener);
+
         signUpBtn.setOnClickListener(signUp);
 
         // Initialize Firebase Auth
@@ -85,11 +90,24 @@ public class MainActivity extends AppCompatActivity {
     }
     //---------------------------------//
     //---------------------------------//
-
-    private View.OnClickListener editTextOnClickListener = new View.OnClickListener() {
+    private View.OnFocusChangeListener onFocusListener = new View.OnFocusChangeListener() {
         @Override
-        public void onClick(View v) {
-            clearEditText(v);
+        public void onFocusChange(View v,boolean hasFocus) {
+            if (!hasFocus){
+                if (userNameTextField.getText().toString().equals("")){
+                    userNameTextField.setText(defaultUserName);
+                }
+                if (pwdTextField.getText().toString().equals("")){
+                    pwdTextField.setText(defaultPassword);
+                    pwdTextField.setInputType(InputType.TYPE_CLASS_TEXT);
+                } else if (pwdTextField.getText().toString().equals(defaultPassword)) {
+                    pwdTextField.setInputType(InputType.TYPE_CLASS_TEXT);
+                } else {
+                    pwdTextField.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }
+            } else {
+                clearEditText(v);
+            }
         }
     };
 
@@ -121,11 +139,12 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
             if ((actionId == EditorInfo.IME_ACTION_DONE)) {
-                signInMethod();
+                signInBtn.requestFocus();
             }
         return false;
         }
     };
+
 
     /*////////////////////////////////////////////////////////////////////////////////////
     SIGN IN METHODS
@@ -144,14 +163,18 @@ public class MainActivity extends AppCompatActivity {
         }
 
     };
+    private View.OnFocusChangeListener signInFocusListener = new View.OnFocusChangeListener(){
+        @Override
+        public void onFocusChange(View v,boolean hasFocus) {
+            signInMethod();
+        }
+    };
 
     private void signInMethod() {
-        String initialUserName = getResources().getString(R.string.userName);
-        String initialPassword = getResources().getString(R.string.pwd);
         String userName = userNameTextField.getText().toString();
         String password = pwdTextField.getText().toString();
 
-        if (userName.equals(initialUserName) || password.equals(initialPassword) || userName.equals("") || password.equals("")) {
+        if (userName.equals(defaultUserName) || password.equals(defaultPassword) || userName.equals("") || password.equals("")) {
             Toast.makeText(MainActivity.this, "Enter your Username or Email and Password",
                     Toast.LENGTH_LONG).show();
         } else {
