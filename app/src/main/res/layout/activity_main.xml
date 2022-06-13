@@ -41,10 +41,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/uottawalogomain" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/uottawalogomain"
         android:layout_width="277dp"
         android:layout_height="191dp"
         android:layout_marginTop="32dp"

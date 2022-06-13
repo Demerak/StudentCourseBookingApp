@@ -29,54 +29,57 @@ import java.util.Map;
 
 
 public class SignUpActivity extends AppCompatActivity {
-
-
     private String userType;
-    private Button prevButtonSelected;
 
     private EditText userNameTextField;
     private EditText pwdTextField;
     private EditText pwdConfTextField;
+
     private Button signUpBtn;
     private Button signInBtn;
     private Button studentBtn;
     private Button instructorBtn;
 
     private FirebaseAuth mAuth;
-    private FirebaseUser mUser;
     private FirebaseFirestore db;
-
+    private String defaultUserName;
+    private String defaultPassword;
+    private String defaultPasswordConf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        userNameTextField = (EditText) findViewById(R.id.email);
-        pwdTextField = (EditText) findViewById(R.id.pwd);
-        pwdConfTextField = (EditText) findViewById(R.id.pwdconf);
+        defaultUserName = getResources().getString(R.string.userName);
+        defaultPassword = getResources().getString(R.string.pwd);
+        defaultPasswordConf = getResources().getString(R.string.confirmPwd);
 
-        signUpBtn = (Button) findViewById(R.id.signUpBtn);
-        signInBtn = (Button) findViewById(R.id.signInBtn);
-        studentBtn = (Button) findViewById(R.id.student);
-        instructorBtn = (Button) findViewById(R.id.instructor);
+        userNameTextField = findViewById(R.id.email);
+        pwdTextField = findViewById(R.id.pwd);
+        pwdConfTextField = findViewById(R.id.pwdconf);
 
-        userNameTextField.setOnClickListener(editTextOnClickListener);
+        signUpBtn = findViewById(R.id.signUpBtn);
+        signInBtn = findViewById(R.id.signInBtn);
+        studentBtn = findViewById(R.id.student);
+        instructorBtn = findViewById(R.id.instructor);
+
         userNameTextField.setOnEditorActionListener(userNameListener);
+        userNameTextField.setOnFocusChangeListener(onFocusListener);
 
-        pwdTextField.setOnClickListener(editTextPwdOnClickListener);
         pwdTextField.setOnEditorActionListener(passwordListener);
+        pwdTextField.setOnFocusChangeListener(onFocusListener);
 
-        pwdConfTextField.setOnClickListener(editTextPwdOnClickListener);
         pwdConfTextField.setOnEditorActionListener(passwordConfListener);
+        pwdConfTextField.setOnFocusChangeListener(onFocusListener);
 
         studentBtn.setOnClickListener(userTypeSelection);
         instructorBtn.setOnClickListener(userTypeSelection);
+
         signUpBtn.setOnClickListener(signUp);
         signInBtn.setOnClickListener(signIn);
 
         mAuth = FirebaseAuth.getInstance();
-        mUser=mAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
     }
 
@@ -86,30 +89,50 @@ public class SignUpActivity extends AppCompatActivity {
     TEXT INPUT METHODS
     ////////////////////////////////////////////////////////////////////////////////////*/
 
-    private View.OnClickListener editTextOnClickListener = new View.OnClickListener() {
+    private View.OnFocusChangeListener onFocusListener = new View.OnFocusChangeListener() {
         @Override
-        public void onClick(View v) {
-            clearEditText(v);
+        public void onFocusChange(View v,boolean hasFocus) {
+
+            if (!hasFocus){
+                if (userNameTextField.getText().toString().equals("")){
+                    userNameTextField.setText(defaultUserName);
+                }
+                if (pwdTextField.getText().toString().equals("")){
+                    pwdTextField.setText(defaultPassword);
+                    pwdTextField.setInputType(InputType.TYPE_CLASS_TEXT);
+                } else if (pwdTextField.getText().toString().equals(defaultPassword)) {
+                    pwdTextField.setInputType(InputType.TYPE_CLASS_TEXT);
+                } else {
+                    pwdTextField.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }
+
+                if (pwdConfTextField.getText().toString().equals("")){
+                    pwdConfTextField.setText(defaultPasswordConf);
+                    pwdConfTextField.setInputType(InputType.TYPE_CLASS_TEXT);
+                } else if (pwdConfTextField.getText().toString().equals(defaultPasswordConf)){
+                    pwdConfTextField.setInputType(InputType.TYPE_CLASS_TEXT);
+                } else {
+                    pwdConfTextField.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }
+            } else {
+                clearEditText(v);
+            }
+
         }
     };
 
     private void clearEditText(View v) {
         TextView entry = (TextView) v;
         entry.setText("");
-    }
-
-    private View.OnClickListener editTextPwdOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            clearPwdEditText(v);
+        if (v.getId() == pwdTextField.getId()) {
+            pwdTextField.setText("");
+            pwdTextField.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        } else if (v.getId() == pwdConfTextField.getId()) {
+            pwdConfTextField.setText("");
+            pwdConfTextField.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         }
-    };
-
-    private void clearPwdEditText(View v) {
-        TextView entry = (TextView) v;
-        entry.setText("");
-        entry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
     }
+
 
     //---------------------------------//
     //---------------------------------//
@@ -141,7 +164,8 @@ public class SignUpActivity extends AppCompatActivity {
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
             if ((actionId == EditorInfo.IME_ACTION_DONE)) {
-                signUpMethod();
+                signUpBtn.requestFocus();
+                //signUpMethod();
             }
             return false;
         }
@@ -168,6 +192,7 @@ public class SignUpActivity extends AppCompatActivity {
             instructorBtn.setBackground(getResources().getDrawable(R.drawable.right_rounded_button_red));
             studentBtn.setBackground(getResources().getDrawable(R.drawable.left_rounded_button));
         }
+
     }
 
 
@@ -208,6 +233,8 @@ public class SignUpActivity extends AppCompatActivity {
     private void signUpMethod() {
         String userName = userNameTextField.getText().toString();
         String password = pwdTextField.getText().toString();
+
+
 
         if (userName.equals(getResources().getString(R.string.userName)) || password.equals(getResources().getString(R.string.pwd)) || userName.equals("") || password.equals("")) {
             Toast.makeText(SignUpActivity.this, "Enter your Username and Password", Toast.LENGTH_LONG).show();
