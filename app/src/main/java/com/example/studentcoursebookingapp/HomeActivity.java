@@ -4,15 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -34,7 +31,15 @@ public class HomeActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseUser mUser;
 
-    private Button signOutButton;
+    private Button signOutButton, openCoursePageButton, openAccountPageBtn;
+
+
+
+    public void openCoursePageActivity () {
+        Intent intentCourseActivity = new Intent(this, CoursesActivity.class);
+        startActivity(intentCourseActivity);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,18 +49,38 @@ public class HomeActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        usr_name = findViewById(R.id.user_text);
-        usr_role = findViewById(R.id.user_role_text);
+        usr_name = findViewById(R.id.blanc1);
+        usr_role = findViewById(R.id.blanc2);
 
-        signOutButton = findViewById(R.id.signOutButton);
+        signOutButton = findViewById(R.id.sign_out_btn);
         signOutButton.setOnClickListener(signOut);
 
 
+        openCoursePageButton = findViewById(R.id.view_courses_page_btn);
+        openCoursePageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openCoursePageActivity();
+            }
+        });
+
+        openAccountPageBtn = findViewById(R.id.account_page_btn);
+        openAccountPageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openAccountPage();
+            }
+        });
         Window window = getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(Color.parseColor("#8E001A"));
 
+    }
+
+    public void openAccountPage () {
+        Intent intentAccount = new Intent(this, AccountTwoActivity.class);
+        startActivity(intentAccount);
     }
 
     @Override

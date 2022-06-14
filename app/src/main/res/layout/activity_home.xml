@@ -19,24 +19,49 @@
         app:layout_constraintBaseline_toBaselineOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/uottawa_ver_white"
-        app:tint="@color/grey"/>
+        app:srcCompat="@drawable/uottawa_hor_black"
+        app:tint="@color/grey" />
 
-    <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/signOutButton"
+    <LinearLayout
+        android:layout_width="168dp"
+        android:layout_height="197dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/uottawa_logo">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/sign_out_btn"
             android:layout_width="169dp"
             android:layout_height="55dp"
-            android:layout_marginBottom="135dp"
+            android:layout_marginBottom="10dp"
             android:background="@color/garnet"
-            android:text="Sign Out"
-            android:textColor="@color/white"
             android:fontFamily="sans-serif-medium"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:text="Sign Out"
+            android:textColor="@color/white" />
 
-        <TextView
-            android:id="@+id/welcome_text"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/view_courses_page_btn"
+            android:layout_width="169dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@color/garnet"
+            android:fontFamily="sans-serif-medium"
+            android:text="View Courses"
+            android:textColor="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/account_page_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/garnet"
+            android:text="@string/view_accounts"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <TextView
+            android:id="@+id/courselist_text"
             android:layout_width="190dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
@@ -64,7 +89,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/user_text"
+                    android:id="@+id/blanc1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="user_text"
@@ -76,7 +101,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/user_role_text"
+                    android:id="@+id/blanc2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="user_role_text"
@@ -85,10 +110,11 @@
                     android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/user_text"
+                    app:layout_constraintTop_toBottomOf="@id/blanc1"
                     />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
 

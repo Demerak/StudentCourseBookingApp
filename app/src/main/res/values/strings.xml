@@ -8,4 +8,22 @@
     <string name="student">student</string>
     <string name="instructor">instructor</string>
     <string name="admin">admin</string>
+    <string name="create_a_course">Create a course</string>
+    <string name="create_a_course_title">Create a course</string>
+    <string name="course_name">Course Name</string>
+    <string name="course_number_title">Course Number</string>
+    <string name="course_number_hint">Course Number</string>
+    <string name="course_name_hint">Course Name</string>
+    <string name="submit_create">Submit (Create)</string>
+    <string name="edit_course_btn">Edit Course</string>
+    <string name="delete_course">Delete Course</string>
+    <string name="edit_courses">Edit Courses</string>
+    <string name="course_code">Course Code</string>
+    <string name="previous_name">Previous Name</string>
+    <string name="new_course_name">New Course Name</string>
+    <string name="submit">Submit</string>
+    <string name="previous_course_code">Previous Course Code</string>
+    <string name="submit_name_change">Submit Name Change</string>
+    <string name="view_account">view_account</string>
+    <string name="view_accounts">View Accounts</string>
 </resources>
