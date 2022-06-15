@@ -60,7 +60,14 @@ public class HomeActivity extends AppCompatActivity {
         openCoursePageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openCoursePageActivity();
+
+                if(usr_role.getText().toString().equals("admin")){
+
+                    openCoursePageActivity();
+
+                }
+
+
             }
         });
 
@@ -68,7 +75,13 @@ public class HomeActivity extends AppCompatActivity {
         openAccountPageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openAccountPage();
+
+                if(usr_role.getText().toString().equals("admin")){
+
+                    openAccountPage();
+
+                }
+
             }
         });
         Window window = getWindow();
