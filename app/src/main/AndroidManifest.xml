@@ -14,7 +14,7 @@
         android:theme="@style/Theme.StudentCourseBookingApp"
         tools:targetApi="31">
         <activity
-            android:name=".AccountTwoActivity"
+            android:name=".AccountActivity"
             android:exported="false" />
         <activity
             android:name=".EditCourse"

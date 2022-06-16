@@ -92,7 +92,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void openAccountPage () {
-        Intent intentAccount = new Intent(this, AccountTwoActivity.class);
+        Intent intentAccount = new Intent(this, AccountActivity.class);
         startActivity(intentAccount);
     }
 
