@@ -31,14 +31,15 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-// todo refactor
 public class AccountActivity extends AppCompatActivity {
 
     private EditText usernameEditText;
     private Button usernameSearchBTN, delBtn, homeBtn;
+
     private ListView accountListView;
     private ArrayList<QueryDocumentSnapshot> accountList;
     private ArrayAdapter adapter;
+
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
@@ -46,14 +47,15 @@ public class AccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.account_activity);
 
-        accountList = new ArrayList<>();
-
         usernameEditText = findViewById(R.id.searchUsername);
         usernameSearchBTN = findViewById(R.id.searchUsernameBtn);
         delBtn = findViewById(R.id.deleteAccount);
         homeBtn = findViewById(R.id.accountActivityHomeBtn);
+
+        accountList = new ArrayList<>();
         accountListView = findViewById(R.id.accountListView);
 
+        // onClickListener
         usernameSearchBTN.setOnClickListener(search);
         delBtn.setOnClickListener(deleteUser);
         homeBtn.setOnClickListener(openHomePageActivity);
@@ -62,6 +64,7 @@ public class AccountActivity extends AppCompatActivity {
     private View.OnClickListener openHomePageActivity = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            // Go back to home page
             Intent intent = new Intent(AccountActivity.this, HomeActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
@@ -69,86 +72,56 @@ public class AccountActivity extends AppCompatActivity {
     };
 
     private void viewList() {
-        HashMap<String, Object> account = (HashMap) accountList.get(0).getData();
-        String role = (String) account.get("role");
-        String name = (String) account.get("name");
-
-        String accountInfo = "username: " + name + " role: " + role;
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Collections.singletonList(accountInfo));
-        accountListView.setAdapter(adapter);
-    }
-
-    private void viewListEmpty() {
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Collections.singletonList("Nothing found"));
-        accountListView.setAdapter(adapter);
-    }
-
-    private View.OnClickListener deleteUser = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (!accountList.isEmpty()) {
-                HashMap<String, Object> account = (HashMap) accountList.get(0).getData();
-                String role = (String) account.get("role");
-                String name = (String) account.get("name");
-
-                CollectionReference dbUser = db.collection("users");
-                Map<String,Object> updates = new HashMap<>();
-                updates.put(accountList.get(0).getId(), FieldValue.delete());
-                //Toast.makeText(AccountActivity.this, accountList.get(0).getId(), Toast.LENGTH_LONG).show();
-//                dbUser.document().update(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//                        if (task.isSuccessful()) {
-//                            Toast.makeText(AccountActivity.this, "Success!", Toast.LENGTH_LONG).show();
-//                        } else {
-//                            Toast.makeText(AccountActivity.this, "Failed!", Toast.LENGTH_LONG).show();
-//                        }
-//
-//                    }
-//                });
-
-                dbUser.document(accountList.get(0).getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-
-                        Toast.makeText(AccountActivity.this, "Success!", Toast.LENGTH_LONG).show();
-
-                    }
-                });
-            }
+        if (!accountList.isEmpty()) {
+            HashMap<String, Object> account = (HashMap) accountList.get(0).getData();
+            adapter = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_list_item_1,
+                    Collections.singletonList("username: " + (String) account.get("name") + " | " + "role: " + (String) account.get("role")));
+        } else {
+            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Collections.singletonList("Nothing found"));
         }
-    };
+        accountListView.setAdapter(adapter);
+    }
 
     private View.OnClickListener search = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             accountList.clear();
             String username = usernameEditText.getText().toString().trim();
-
             CollectionReference dbUser = db.collection("users");
-
             dbUser.whereEqualTo("name", username).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
-                        //Toast.makeText(AccountActivity.this, "Noth", Toast.LENGTH_LONG).show();
-                        Toast.makeText(AccountActivity.this, Integer.toString(task.getResult().size()), Toast.LENGTH_LONG).show();
-
                         for (QueryDocumentSnapshot document: task.getResult()) {
-                            Toast.makeText(AccountActivity.this, document.getData().toString() , Toast.LENGTH_SHORT).show();
                             Log.d("SUCCESS", document.getId() + " => " + document.getData());
-                            Map<String, Object> user = document.getData();
                             accountList.add(document);
                         }
-                        // todo improve logic here
-                        if (!accountList.isEmpty()) {
-                            viewList();
-                        } else {
-                            viewListEmpty();
-                        }
+                        viewList();
+                    } else {
+                        Toast.makeText(AccountActivity.this, "Account not found!", Toast.LENGTH_LONG).show();
                     }
                 }
             });
+        }
+    };
+
+    private View.OnClickListener deleteUser = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (!accountList.isEmpty()) {
+                CollectionReference dbUser = db.collection("users");
+                dbUser.document(accountList.get(0).getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(AccountActivity.this, "Account Deleted!", Toast.LENGTH_LONG).show();
+                        accountList.clear();
+                        viewList();
+                    }
+                });
+            } else {
+                Toast.makeText(AccountActivity.this, "Please search for a user ", Toast.LENGTH_LONG).show();
+            }
         }
     };
 }
