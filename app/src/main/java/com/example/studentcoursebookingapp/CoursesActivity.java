@@ -12,25 +12,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-
 public class CoursesActivity extends AppCompatActivity {
 
-
     private Button openHomePageButton, openCreateCourseButton,editCourseButton;;
-    FirebaseFirestore db;
-    ArrayList<Course> courseList;
-    RecyclerView recyclerView;
-    CourseAdapter courseAdapter;
-
-
-
+    private FirebaseFirestore db;
+    private ArrayList<Course> courseList;
+    private RecyclerView recyclerView;
+    private CourseAdapter courseAdapter;
 
     public void openHomePageActivity () {
         Intent intentHomeActivity = new Intent(this, HomeAdminActivity.class);
@@ -61,16 +58,11 @@ public class CoursesActivity extends AppCompatActivity {
         courseAdapter = new CourseAdapter(CoursesActivity.this, courseList);
 
         recyclerView.setAdapter(courseAdapter);
-        EventChangeListener();
-
-
 
         openHomePageButton = findViewById(R.id.home_from_courses_page_btn);
         openHomePageButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                openHomePageActivity();
-            }
+            public void onClick(View view) { openHomePageActivity(); }
         });
 
         openCreateCourseButton = findViewById(R.id.create_course_btn);
@@ -88,36 +80,20 @@ public class CoursesActivity extends AppCompatActivity {
                 openEditActivity();
             }
         });
-
-    }
-
-    private void EventChangeListener() {
-        db.collection("courses").addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error != null) {
-                    Log.e("Firestore error", error.getMessage());
-                    return;
-                }
-                for (DocumentChange dc: value.getDocumentChanges()) {
-                    if (dc.getType() == DocumentChange.Type.ADDED) {
-                        courseList.add(dc.getDocument().toObject(Course.class));
-                    }
-                    courseAdapter.notifyDataSetChanged();
-                }
-            }
-        });
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        //Populate List with data
-
+        db.collection("courses").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                for (DocumentSnapshot document: value.getDocuments()) {
+                    Log.d("SUCCESS", document.getId() + " => " + document.getData() + document.toObject(Course.class).getName());
+                    courseList.add(document.toObject(Course.class));
+                }
+                courseAdapter.notifyDataSetChanged();
+            }
+        });
     }
-
-
-
-
-
 }
