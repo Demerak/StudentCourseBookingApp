@@ -2,6 +2,7 @@ package com.example.studentcoursebookingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,9 +20,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-
 import androidx.annotation.NonNull;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText pwdTextField;
     private Button signInBtn;
     private Button signUpBtn;
-    private FirebaseFirestore db;
 
     private String defaultUserName;
     private String defaultPassword;
@@ -62,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
     }
 
 
@@ -71,9 +68,9 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and if so send to home.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        //mAuth.signOut();
+
         if (currentUser != null) {
-            sendUserToHome(currentUser);
+            sendUserToHome();
         }
     }
 
@@ -153,18 +150,8 @@ public class MainActivity extends AppCompatActivity {
     SIGN IN METHODS
     ////////////////////////////////////////////////////////////////////////////////////*/
     //Sends user to page after login screen
-    private void sendUserToHomeAdmin() {
-        Intent intent = new Intent(MainActivity.this, HomeAdminActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
-    private void sendUserToHomeTeacher() {
-        Intent intent = new Intent(MainActivity.this, HomeInstructorActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
-    private void sendUserToHomeStudent() {
-        Intent intent = new Intent(MainActivity.this, HomeStudentActivity.class);
+    private void sendUserToHome() {
+        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
@@ -201,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
                                 // Sign in success, send user to home
                                 Log.d("TAG", "signInWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
-                                sendUserToHome(user);
+                                sendUserToHome();
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w("TAG", "signInWithEmail:failure", task.getException());
@@ -212,38 +199,4 @@ public class MainActivity extends AppCompatActivity {
                     });
         }
     }
-
-
-
-    private void sendUserToHome(FirebaseUser user){
-        db.collection("users")
-                .document(user.getUid())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            String role = document.getString("role");
-                            switch (role) {
-                                case "admin":
-                                    sendUserToHomeAdmin();
-                                    break;
-                                case "instructor":
-                                    sendUserToHomeTeacher();
-                                    break;
-                                case "student":
-                                    sendUserToHomeStudent();
-                                    break;
-                            }
-
-                        } else {
-                            Log.d("TAG", "get failed with ", task.getException());
-                        }
-                    }
-                });
-    }
-
-
 }
-

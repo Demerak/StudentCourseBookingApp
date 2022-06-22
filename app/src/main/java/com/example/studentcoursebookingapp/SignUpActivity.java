@@ -201,8 +201,8 @@ public class SignUpActivity extends AppCompatActivity {
     ////////////////////////////////////////////////////////////////////////////////////*/
 
     //Sends user to page after login screen
-    private void sendUserToMain() {
-        Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+    private void sendUserToHome() {
+        Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
@@ -281,15 +281,8 @@ public class SignUpActivity extends AppCompatActivity {
                                             }
                                         });
 
-                                switch (userType) {
-                                    case "instructor":
-                                        sendUserToHomeTeacher();
-                                        break;
-                                    case "student":
-                                        sendUserToHomeStudent();
-                                        break;
-                                }
-
+                                // send to home
+                                sendUserToHome();
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w("TAG", "createUserWithEmail:failure", task.getException());
@@ -302,24 +295,6 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
     }
-
-
-    private void sendUserToHomeAdmin() {
-        Intent intent = new Intent(SignUpActivity.this, HomeAdminActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
-    private void sendUserToHomeTeacher() {
-        Intent intent = new Intent(SignUpActivity.this, HomeInstructorActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
-    private void sendUserToHomeStudent() {
-        Intent intent = new Intent(SignUpActivity.this, HomeStudentActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
-
 
 }
 
