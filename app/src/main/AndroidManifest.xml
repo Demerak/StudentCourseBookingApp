@@ -30,13 +30,7 @@
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".HomeAdminActivity"
-            android:exported="false" />
-        <activity
-            android:name=".HomeInstructorActivity"
-            android:exported="false" />
-        <activity
-            android:name=".HomeStudentActivity"
+            android:name=".HomeActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

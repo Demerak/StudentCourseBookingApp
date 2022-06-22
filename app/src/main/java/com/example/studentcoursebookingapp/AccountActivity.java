@@ -65,7 +65,7 @@ public class AccountActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             // Go back to home page
-            Intent intent = new Intent(AccountActivity.this, HomeAdminActivity.class);
+            Intent intent = new Intent(AccountActivity.this, HomeActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
