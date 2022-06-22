@@ -14,8 +14,8 @@ import java.util.ArrayList;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.MyViewHolder>{
 
-    Context context;
-    ArrayList<Course> courseArrayList;
+    private Context context;
+    private ArrayList<Course> courseArrayList;
 
     public CourseAdapter(Context context, ArrayList<Course> userArrayList) {
         this.context = context;
@@ -51,11 +51,6 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.MyViewHold
             super(itemView);
             courseName = itemView.findViewById(R.id.course_name_txt_view);
             courseNumber = itemView.findViewById(R.id.course_number_txt_view);
-
-
-
-
-
         }
     }
 }

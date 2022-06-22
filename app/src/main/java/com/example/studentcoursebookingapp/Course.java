@@ -1,7 +1,7 @@
 package com.example.studentcoursebookingapp;
 
 public class Course {
-    private String name,number;
+    private String name, number;
 
     public Course() {
     }

@@ -25,16 +25,10 @@ public class CreateCourse extends AppCompatActivity implements View.OnClickListe
     private EditText editCourseName;
     private EditText editCourseNumber;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private Button deleteBtn;
-
-
-
-
+    private Button deleteBtn, cancelBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_course);
 
@@ -42,6 +36,8 @@ public class CreateCourse extends AppCompatActivity implements View.OnClickListe
         editCourseNumber = findViewById(R.id.course_number_field);
         findViewById(R.id.submit_entry_btn).setOnClickListener(this);
         deleteBtn = findViewById(R.id.delete_course_btn);
+        cancelBtn = findViewById(R.id.cancel_btn_create_course);
+
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,6 +49,15 @@ public class CreateCourse extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Go back Course Activity
+                Intent intent = new Intent(CreateCourse.this, CoursesActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
     }
 
     private void DeleteData(String coursename) {

@@ -2,6 +2,8 @@ package com.example.studentcoursebookingapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -21,19 +23,22 @@ import java.util.Map;
 
 public class EditCourse extends AppCompatActivity {
 
-    Button updateBtn, updateCodeBtn;
-    EditText existingName, newName, existingNumber, newNumber;
-    FirebaseFirestore dbup;
+    private Button updateBtn, updateCodeBtn, cancelBtn;
+    private EditText existingName, newName, existingNumber, newNumber;
+    private FirebaseFirestore dbup;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_course);
+
         dbup = FirebaseFirestore.getInstance();
+
         updateBtn = findViewById(R.id.submit_edits_btn);
         updateCodeBtn = findViewById(R.id.submit_coursecode_edits_btn);
+        cancelBtn = findViewById(R.id.cancel_btn_edit_course);
         existingName = findViewById(R.id.previous_course_name_field);
         newName = findViewById((R.id.new_course_name_field));
-
         existingNumber = findViewById(R.id.previous_course_code);
         newNumber = findViewById((R.id.new_course_code_field));
 
@@ -44,10 +49,7 @@ public class EditCourse extends AppCompatActivity {
                 String newname = newName.getText().toString();
                 existingName.setText("");
                 newName.setText("");
-
                 UpdateData(courseName, newname);
-
-
             }
         });
 
@@ -60,6 +62,16 @@ public class EditCourse extends AppCompatActivity {
                 newNumber.setText("");
 
                 UpdateDataCode(courseNum, newnum);
+            }
+        });
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Go back Course Activity
+                Intent intent = new Intent(EditCourse.this, CoursesActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
             }
         });
     }

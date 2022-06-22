@@ -24,13 +24,10 @@ public class CoursesActivity extends AppCompatActivity {
 
 
     private Button openHomePageButton, openCreateCourseButton,editCourseButton;;
-    FirebaseFirestore db;
-    ArrayList<Course> courseList;
-    RecyclerView recyclerView;
-    CourseAdapter courseAdapter;
-
-
-
+    private FirebaseFirestore db;
+    private ArrayList<Course> courseList;
+    private RecyclerView recyclerView;
+    private CourseAdapter courseAdapter;
 
     public void openHomePageActivity () {
         Intent intentHomeActivity = new Intent(this, HomeActivity.class);
@@ -62,8 +59,6 @@ public class CoursesActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(courseAdapter);
         EventChangeListener();
-
-
 
         openHomePageButton = findViewById(R.id.home_from_courses_page_btn);
         openHomePageButton.setOnClickListener(new View.OnClickListener() {
