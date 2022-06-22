@@ -1,24 +1,30 @@
 package com.example.studentcoursebookingapp;
 
 public class Course {
-    private String name, courseId;
-    // TODO add course days, course hours, course description, student capacity
+    private String name,number;
 
-    public Course(String name, String courseId) {
+    public Course() {
+    }
+
+    public Course(String name, String number) {
         this.name = name;
-        this.courseId = courseId;
+        this.number = number;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getCourseId() { return courseId; }
+    public String getNumber() {
+        return number;
+    }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setCourseId(String courseId) { this.courseId = courseId; }
+    public void setNumber(String number) {
+        this.number = number;
+    }
 
 }
