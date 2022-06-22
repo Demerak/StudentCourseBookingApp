@@ -103,14 +103,14 @@
                 android:textSize="20sp" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/cancel_btn_create_course"
+                android:id="@+id/go_back_btn_create_course"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:background="@color/garnet"
                 android:fontFamily="sans-serif-medium"
-                android:text="Cancel"
+                android:text="Return to Courses Activity"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
         </LinearLayout>

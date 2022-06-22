@@ -23,7 +23,7 @@ import java.util.Map;
 
 public class EditCourse extends AppCompatActivity {
 
-    private Button updateBtn, updateCodeBtn, cancelBtn;
+    private Button updateBtn, updateCodeBtn, goBackBtn;
     private EditText existingName, newName, existingNumber, newNumber;
     private FirebaseFirestore dbup;
 
@@ -36,7 +36,7 @@ public class EditCourse extends AppCompatActivity {
 
         updateBtn = findViewById(R.id.submit_edits_btn);
         updateCodeBtn = findViewById(R.id.submit_coursecode_edits_btn);
-        cancelBtn = findViewById(R.id.cancel_btn_edit_course);
+        goBackBtn = findViewById(R.id.go_back_btn_edit_course);
         existingName = findViewById(R.id.previous_course_name_field);
         newName = findViewById((R.id.new_course_name_field));
         existingNumber = findViewById(R.id.previous_course_code);
@@ -65,7 +65,7 @@ public class EditCourse extends AppCompatActivity {
             }
         });
 
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
+        goBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Go back Course Activity

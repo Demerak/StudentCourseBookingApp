@@ -33,14 +33,6 @@ public class HomeActivity extends AppCompatActivity {
 
     private Button signOutButton, openCoursePageButton, openAccountPageBtn;
 
-
-
-    public void openCoursePageActivity () {
-        Intent intentCourseActivity = new Intent(this, CoursesActivity.class);
-        startActivity(intentCourseActivity);
-    }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,19 +47,14 @@ public class HomeActivity extends AppCompatActivity {
         signOutButton = findViewById(R.id.sign_out_btn);
         signOutButton.setOnClickListener(signOut);
 
-
         openCoursePageButton = findViewById(R.id.view_courses_page_btn);
         openCoursePageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                // TODO We should perhaps change the layout dynamically instead
                 if(usr_role.getText().toString().equals("admin")){
-
                     openCoursePageActivity();
-
                 }
-
-
             }
         });
 
@@ -75,13 +62,9 @@ public class HomeActivity extends AppCompatActivity {
         openAccountPageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if(usr_role.getText().toString().equals("admin")){
-
                     openAccountPage();
-
                 }
-
             }
         });
         Window window = getWindow();
@@ -91,7 +74,12 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    public void openAccountPage () {
+    private void openCoursePageActivity () {
+        Intent intentCourseActivity = new Intent(this, CoursesActivity.class);
+        startActivity(intentCourseActivity);
+    }
+
+    private void openAccountPage () {
         Intent intentAccount = new Intent(this, AccountActivity.class);
         startActivity(intentAccount);
     }
@@ -103,7 +91,7 @@ public class HomeActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         // Access user data.
-        // Firestore's rules are set up to ensure that users can only accsess the document where the document title equals their UID.
+        // Firestore's rules are set up to ensure that users can only access the document where the document title equals their UID.
         // Thank you too : https://medium.com/firebase-tips-tricks/how-to-fix-firestore-error-permission-denied-missing-or-insufficient-permissions-777d591f404
         // For providing the firestore rules
         db.collection("users")
@@ -121,7 +109,6 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 }
         });
-
     }
 
     private View.OnClickListener signOut = new View.OnClickListener() {
@@ -133,5 +120,4 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(intent);
         }
     };
-
 }
