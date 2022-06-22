@@ -3,8 +3,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.TextView;
 
+import static androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,8 +14,8 @@ import java.util.ArrayList;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.MyViewHolder>{
 
-    private Context context;
-    private ArrayList<Course> courseArrayList;
+    Context context;
+    ArrayList<Course> courseArrayList;
 
     public CourseAdapter(Context context, ArrayList<Course> userArrayList) {
         this.context = context;
@@ -33,7 +35,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.MyViewHold
     public void onBindViewHolder(@NonNull CourseAdapter.MyViewHolder holder, int position) {
         Course course = courseArrayList.get(position);
         holder.courseName.setText(course.getName());
-        holder.courseNumber.setText(course.getCourseId());
+        holder.courseNumber.setText(course.getNumber());
     }
 
     @Override
@@ -49,6 +51,11 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.MyViewHold
             super(itemView);
             courseName = itemView.findViewById(R.id.course_name_txt_view);
             courseNumber = itemView.findViewById(R.id.course_number_txt_view);
+
+
+
+
+
         }
     }
 }
