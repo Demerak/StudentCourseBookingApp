@@ -8,7 +8,7 @@ public class Course {
         this.name = name;
         this.courseId = courseId;
     }
-
+    public Course(){}
     public String getName() {
         return name;
     }
