@@ -15,8 +15,22 @@
       android:statusBarColor="@color/garnet"
       tools:context=".HomeActivity"
       tools:layout_editor_absoluteX="0dp"
-      tools:layout_editor_absoluteY="27dp">
+      tools:layout_editor_absoluteY="-16dp">
 
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/go_back_btn_edit_course"
+        android:layout_width="169dp"
+        android:layout_height="55dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:background="@color/garnet"
+        android:fontFamily="sans-serif-medium"
+        android:text="Return to Courses Activity"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/submit_coursecode_edits_btn"></androidx.appcompat.widget.AppCompatButton>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/submit_coursecode_edits_btn"

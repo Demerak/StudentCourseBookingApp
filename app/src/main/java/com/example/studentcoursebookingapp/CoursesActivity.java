@@ -88,11 +88,13 @@ public class CoursesActivity extends AppCompatActivity {
         db.collection("courses").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                for (DocumentSnapshot document: value.getDocuments()) {
-                    Log.d("SUCCESS", document.getId() + " => " + document.getData() + document.toObject(Course.class).getName());
-                    courseList.add(document.toObject(Course.class));
+                if (value != null){
+                    for (DocumentSnapshot document: value.getDocuments()) {
+                        Log.d("SUCCESS", document.getId() + " => " + document.getData() + document.toObject(Course.class).getName());
+                        courseList.add(document.toObject(Course.class));
+                    }
+                    courseAdapter.notifyDataSetChanged();
                 }
-                courseAdapter.notifyDataSetChanged();
             }
         });
     }
