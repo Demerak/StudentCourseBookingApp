@@ -158,7 +158,7 @@ public class HomeInstructorActivity extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         // Access user data.
-        // Firestore's rules are set up to ensure that users can only accsess the document where the document title equals their UID.
+        // Firestore's rules are set up to ensure that users can only access the document where the document title equals their UID.
         // Thank you too : https://medium.com/firebase-tips-tricks/how-to-fix-firestore-error-permission-denied-missing-or-insufficient-permissions-777d591f404
         // For providing the firestore rules
         db.collection("users")
@@ -272,12 +272,12 @@ public class HomeInstructorActivity extends AppCompatActivity {
 
         // Welcome String
         TextView ttv = new TextView(HomeInstructorActivity.this);
-        String welcomeString = "Course " + name + "  " + number;
+        String welcomeString = "Course: " + name + " id: " + number;
         ttv.setText(welcomeString);
         ttv.setTextSize(30);
         layoutCourse.addView(ttv);
 
-        // Button to unassign current user from course
+        // Button to unassigned current user from course
         Button deleteBtn = new Button(HomeInstructorActivity.this);
         String btnString = "unAssign course";
         deleteBtn.setText(btnString);
@@ -571,7 +571,6 @@ public class HomeInstructorActivity extends AppCompatActivity {
         ttv.setTextSize(30);
         layoutCourse.addView(ttv);
 
-
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         // Get all documents in course collection and display those that have an instrucotr field that match current user UID
@@ -612,7 +611,6 @@ public class HomeInstructorActivity extends AppCompatActivity {
         ttv.setTextSize(30);
         layoutCourse.addView(ttv);
 
-
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         // get all courses, and filter for courses with an instructor field that matches the current user
@@ -650,13 +648,5 @@ public class HomeInstructorActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-
-
-
     }
-
-
-
 }
