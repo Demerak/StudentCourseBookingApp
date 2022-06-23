@@ -103,17 +103,6 @@
             android:textColor="@color/white" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/edit_courses_btn"
-            android:layout_width="169dp"
-            android:layout_height="55dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
-            android:background="@color/garnet"
-            android:fontFamily="sans-serif-medium"
-            android:text="@string/edit_course_btn"
-            android:textColor="@color/white"></androidx.appcompat.widget.AppCompatButton>
-
-        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/home_from_courses_page_btn"
             android:layout_width="169dp"
             android:layout_height="55dp"

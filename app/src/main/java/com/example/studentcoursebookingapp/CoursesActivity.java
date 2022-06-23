@@ -50,14 +50,6 @@ public class CoursesActivity extends AppCompatActivity {
             }
         });
 
-        editCourseBtn = findViewById(R.id.edit_courses_btn);
-        editCourseBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openEditActivity();
-            }
-        });
-
         homeBtn = findViewById(R.id.home_from_courses_page_btn);
         homeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,8 +84,4 @@ public class CoursesActivity extends AppCompatActivity {
         startActivity(intentCreateActivity);
     }
 
-    private void openEditActivity() {
-        Intent editCourseIntent = new Intent(this, EditCourse.class);
-        startActivity(editCourseIntent);
-    }
 }

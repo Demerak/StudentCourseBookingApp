@@ -15,50 +15,49 @@
       android:statusBarColor="@color/garnet"
       tools:context=".HomeActivity"
       tools:layout_editor_absoluteX="0dp"
-      tools:layout_editor_absoluteY="-16dp">
-
+      tools:layout_editor_absoluteY="-156dp">
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/go_back_btn_edit_course"
+        android:id="@+id/returnHomeBtn"
         android:layout_width="169dp"
         android:layout_height="55dp"
         android:layout_gravity="center"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="10dp"
         android:background="@color/garnet"
         android:fontFamily="sans-serif-medium"
-        android:text="Return to Courses Activity"
+        android:text="Home"
         android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/submit_coursecode_edits_btn"></androidx.appcompat.widget.AppCompatButton>
+        app:layout_constraintStart_toStartOf="parent"></androidx.appcompat.widget.AppCompatButton>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/submit_coursecode_edits_btn"
         android:layout_width="169dp"
         android:layout_height="55dp"
         android:layout_gravity="center"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="5dp"
         android:background="@color/garnet"
         android:fontFamily="sans-serif-medium"
         android:text="Submit Code Change"
         android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/returnHomeBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/submit_edits_btn"></androidx.appcompat.widget.AppCompatButton>
+        app:layout_constraintStart_toStartOf="parent"></androidx.appcompat.widget.AppCompatButton>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/submit_edits_btn"
+        android:id="@+id/applyChangeBtn"
         android:layout_width="169dp"
         android:layout_height="55dp"
         android:layout_gravity="center"
-        android:layout_marginTop="25dp"
+        android:layout_marginBottom="5dp"
         android:background="@color/garnet"
         android:fontFamily="sans-serif-medium"
-        android:text="@string/submit_name_change"
+        android:text="Apply Change"
         android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/submit_coursecode_edits_btn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"></androidx.appcompat.widget.AppCompatButton>
+        app:layout_constraintStart_toStartOf="parent"></androidx.appcompat.widget.AppCompatButton>
 
     <LinearLayout
         android:id="@+id/horoz_layout_top"
@@ -115,41 +114,13 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/previous_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horoz_layout_top">
-
-      <EditText
-          android:id="@+id/previous_course_name_field"
-          android:layout_width="match_parent"
-          android:layout_height="50dp"
-          android:ems="10"
-          android:hint="@string/previous_name"
-          android:inputType="textPersonName" />
-
-      <EditText
-          android:id="@+id/previous_course_code"
-          android:layout_width="match_parent"
-          android:layout_height="50dp"
-          android:ems="10"
-          android:hint="@string/previous_course_code"
-          android:inputType="textPersonName" />
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/previous_layout">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
       <EditText
           android:id="@+id/new_course_name_field"
@@ -166,6 +137,78 @@
           android:ems="10"
           android:hint="New Course Code"
           android:inputType="textPersonName" />
+
+      <EditText
+          android:id="@+id/new_course_desc"
+          android:layout_width="match_parent"
+          android:layout_height="50dp"
+          android:ems="10"
+          android:hint="New Course Description"
+          android:inputType="textPersonName" />
+
+      <EditText
+          android:id="@+id/new_course_capacity"
+          android:layout_width="match_parent"
+          android:layout_height="50dp"
+          android:ems="10"
+          android:hint="New Course Capacity"
+          android:inputType="number" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horoz_layout_top">
+
+      <TextView
+          android:id="@+id/courseName"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:layout_marginTop="4dp"
+          android:fontFamily="serif"
+          android:text="Course name: "
+          android:textSize="28sp" />
+
+      <TextView
+          android:id="@+id/courseId"
+          android:layout_width="189dp"
+          android:layout_height="19dp"
+          android:layout_marginStart="8dp"
+          android:layout_marginTop="4dp"
+          android:fontFamily="serif"
+          android:text="Course id: "
+          android:textSize="14sp" />
+
+      <TextView
+          android:id="@+id/courseDescription"
+          android:layout_width="349dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:layout_marginTop="4dp"
+          android:fontFamily="serif"
+          android:text="Description: "
+          android:textSize="14sp" />
+
+      <TextView
+          android:id="@+id/courseCapacity"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:layout_marginTop="4dp"
+          android:fontFamily="serif"
+          android:text="Student capacity: "
+          android:textSize="14sp" />
+
+      <View
+          android:id="@+id/divider2"
+          android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:background="?android:attr/listDivider" />
     </LinearLayout>
 
   </androidx.constraintlayout.widget.ConstraintLayout>

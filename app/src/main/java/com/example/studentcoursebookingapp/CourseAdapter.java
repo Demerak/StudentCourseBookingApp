@@ -53,10 +53,9 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.MyViewHold
             courseName = itemView.findViewById(R.id.course_name_txt_view);
             courseNumber = itemView.findViewById(R.id.course_number_txt_view);
             itemView.setOnClickListener((v) -> {
-                Log.d("ClickWork", "OnClick: Course Click");
+                int position = getAdapterPosition();
+                Log.d("clickTest", "OnClick -> Course Click: " + courseArrayList.get(position).getName());
             });
-
-
 
             itemView.findViewById(R.id.course_edit_btn).setOnClickListener(new View.OnClickListener() {
                 @Override

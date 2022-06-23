@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Course implements Parcelable {
     private String name, courseId, courseDescription;
-    private int studentCapacity;
+    private String studentCapacity; // initially a int but it cause some problems
     private List<TimeSlot> timeSlot;
 
     public Course() {
@@ -17,10 +17,10 @@ public class Course implements Parcelable {
     }
 
     public Course(String name, String courseId) {
-        this(name, courseId, "courseDescriptionTODO", 0);
+        this(name, courseId, "","0");
     }
 
-    public Course(String name, String courseId, String courseDescription, int studentCapacity) {
+    public Course(String name, String courseId, String courseDescription, String studentCapacity) {
         this.name = name;
         this.courseId = courseId;
         this.courseDescription = courseDescription;
@@ -31,7 +31,7 @@ public class Course implements Parcelable {
         name = in.readString();
         courseId = in.readString();
         courseDescription = in.readString();
-        studentCapacity = in.readInt();
+        studentCapacity = in.readString();
     }
 
     public static final Creator<Course> CREATOR = new Creator<Course>() {
@@ -59,7 +59,7 @@ public class Course implements Parcelable {
 
     public String getCourseDescription() { return courseDescription; }
 
-    public int getStudentCapacity() { return studentCapacity; }
+    public String getStudentCapacity() { return studentCapacity; }
 
     public void setName(String name) {
         this.name = name;
@@ -71,7 +71,7 @@ public class Course implements Parcelable {
         this.courseDescription = courseDescription;
     }
 
-    public void setStudentCapacity(int studentCapacity) {
+    public void setStudentCapacity(String studentCapacity) {
         this.studentCapacity = studentCapacity;
     }
 
@@ -85,6 +85,6 @@ public class Course implements Parcelable {
         parcel.writeString(this.name);
         parcel.writeString(this.courseId);
         parcel.writeString(this.courseDescription);
-        parcel.writeInt(this.studentCapacity);
+        parcel.writeString(this.studentCapacity);
     }
 }
