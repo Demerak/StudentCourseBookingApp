@@ -60,9 +60,13 @@ public class HomeStudentActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+        setUserNameRole();
+
+    }
+    //updates name and role for current user
+    private void setUserNameRole(){
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-
         // Access user data.
         // Firestore's rules are set up to ensure that users can only accsess the document where the document title equals their UID.
         // Thank you too : https://medium.com/firebase-tips-tricks/how-to-fix-firestore-error-permission-denied-missing-or-insufficient-permissions-777d591f404
@@ -71,18 +75,17 @@ public class HomeStudentActivity extends AppCompatActivity {
                 .document(currentUser.getUid())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        usr_role_view.setText(document.getString("role"));
-                        usr_name_view.setText(document.getString("name"));
-                    } else {
-                        Log.d("TAG", "get failed with ", task.getException());
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            usr_role_view.setText(document.getString("role"));
+                            usr_name_view.setText(document.getString("name"));
+                        } else {
+                            Log.d("TAG", "get failed with ", task.getException());
+                        }
                     }
-                }
-        });
-
+                });
     }
 
     private View.OnClickListener signOut = new View.OnClickListener() {
