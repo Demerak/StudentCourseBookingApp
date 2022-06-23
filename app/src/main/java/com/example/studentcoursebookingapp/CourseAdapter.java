@@ -1,5 +1,8 @@
 package com.example.studentcoursebookingapp;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +29,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.MyViewHold
 
         View v = LayoutInflater.from(context).inflate(R.layout.course_list_item, parent, false);
 
-        return new MyViewHolder(v);
+        return new MyViewHolder(v, courseArrayList);
     }
 
     @Override
@@ -45,10 +48,32 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.MyViewHold
 
         TextView courseName, courseNumber;
 
-        public MyViewHolder(@NonNull View itemView) {
+        public MyViewHolder(@NonNull View itemView, ArrayList<Course> courseArrayList) {
             super(itemView);
             courseName = itemView.findViewById(R.id.course_name_txt_view);
             courseNumber = itemView.findViewById(R.id.course_number_txt_view);
+            itemView.setOnClickListener((v) -> {
+                Log.d("ClickWork", "OnClick: Course Click");
+            });
+
+
+
+            itemView.findViewById(R.id.course_edit_btn).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("ClickWork", "OnClick: Edit Course Click");
+                    int position = getAdapterPosition();
+
+                    Intent editCourseIntent = new Intent(v.getContext(), EditCourse.class);
+                    Log.d("ClickWork", courseArrayList.get(position).getName());
+                    Course course = courseArrayList.get(position);
+                    editCourseIntent.putExtra("course", course);
+
+                    v.getContext().startActivity(editCourseIntent);
+                }
+            });
+
+
         }
     }
 }

@@ -11,38 +11,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
 public class CoursesActivity extends AppCompatActivity {
 
-    private Button openHomePageButton, openCreateCourseButton,editCourseButton;;
+    private Button homeBtn, createOrDeleteCourseBtn, editCourseBtn;;
     private FirebaseFirestore db;
     private ArrayList<Course> courseList;
     private RecyclerView recyclerView;
     private CourseAdapter courseAdapter;
-
-    public void openHomePageActivity () {
-        Intent intentHomeActivity = new Intent(this, HomeAdminActivity.class);
-        startActivity(intentHomeActivity);
-    }
-
-    public void openCreateCoursePageActivity () {
-        Intent intentCreateActivity = new Intent(this, CreateCourse.class);
-        startActivity(intentCreateActivity);
-    }
-
-    private void openEditActivity() {
-        Intent editCourseIntent = new Intent(this, EditCourse.class);
-        startActivity(editCourseIntent);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,26 +42,26 @@ public class CoursesActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(courseAdapter);
 
-        openHomePageButton = findViewById(R.id.home_from_courses_page_btn);
-        openHomePageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) { openHomePageActivity(); }
-        });
-
-        openCreateCourseButton = findViewById(R.id.create_course_btn);
-        openCreateCourseButton.setOnClickListener(new View.OnClickListener() {
+        createOrDeleteCourseBtn = findViewById(R.id.create_course_btn);
+        createOrDeleteCourseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openCreateCoursePageActivity();
             }
         });
 
-        editCourseButton = findViewById(R.id.edit_courses_btn);
-        editCourseButton.setOnClickListener(new View.OnClickListener() {
+        editCourseBtn = findViewById(R.id.edit_courses_btn);
+        editCourseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openEditActivity();
             }
+        });
+
+        homeBtn = findViewById(R.id.home_from_courses_page_btn);
+        homeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { openHomePageActivity(); }
         });
     }
 
@@ -97,5 +80,20 @@ public class CoursesActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void openHomePageActivity () {
+        Intent intentHomeActivity = new Intent(this, HomeAdminActivity.class);
+        startActivity(intentHomeActivity);
+    }
+
+    public void openCreateCoursePageActivity () {
+        Intent intentCreateActivity = new Intent(this, CreateCourse.class);
+        startActivity(intentCreateActivity);
+    }
+
+    private void openEditActivity() {
+        Intent editCourseIntent = new Intent(this, EditCourse.class);
+        startActivity(editCourseIntent);
     }
 }
