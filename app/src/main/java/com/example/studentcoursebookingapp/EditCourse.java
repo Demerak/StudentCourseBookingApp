@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class EditCourse extends AppCompatActivity {
 
-    private Button applyChangeBtn, updateCodeBtn, returnHomeBtn;
+    private Button applyChangeBtn, deleteBtn, returnHomeBtn;
     private TextView courseName, courseId, courseDesc, courseCapacity;
     private EditText newName, newId, newDesc, newCap;
     private Course course;
@@ -58,6 +58,7 @@ public class EditCourse extends AppCompatActivity {
 
         // buttons
         applyChangeBtn = findViewById(R.id.applyChangeBtn);
+        deleteBtn = findViewById(R.id.delete_course_edit_course_btn);
         returnHomeBtn = findViewById(R.id.returnHomeBtn);
 
         applyChangeBtn.setOnClickListener(new View.OnClickListener() {
@@ -74,13 +75,17 @@ public class EditCourse extends AppCompatActivity {
             }
         });
 
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteCourse();
+            }
+        });
+
         returnHomeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Go back Course Activity
-                Intent intent = new Intent(EditCourse.this, CoursesActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                goBackToHomeActivity();
             }
         });
     }
@@ -101,10 +106,10 @@ public class EditCourse extends AppCompatActivity {
     private void UpdateData(String name, String id, String desc, String cap) {
 
         Map<String,Object> courseDetails = new HashMap<>();
-        courseDetails.put("name", name);
-        courseDetails.put("courseId", id);
-        courseDetails.put("courseDescription", desc);
-        courseDetails.put("studentCapacity", cap);
+        courseDetails.put(CourseField.name.toString(), name);
+        courseDetails.put(CourseField.courseId.toString(), id);
+        courseDetails.put(CourseField.courseDescription.toString(), desc);
+        courseDetails.put(CourseField.studentCapacity.toString(), cap);
 
         db.collection("courses").whereEqualTo("name", course.getName())
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -134,6 +139,38 @@ public class EditCourse extends AppCompatActivity {
                     });
                 } else {
                     Toast.makeText(EditCourse.this, "Failed",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public void goBackToHomeActivity() {
+        // Go back Course Activity
+        Intent intent = new Intent(EditCourse.this, CoursesActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    public void deleteCourse() {
+        db.collection("courses").whereEqualTo("name", course.getName()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                    DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
+                    db.collection("courses").document(documentSnapshot.getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Toast.makeText(EditCourse.this, "Successfully deleted!", Toast.LENGTH_SHORT).show();
+                            goBackToHomeActivity();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(EditCourse.this, "Error occurred!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    Toast.makeText(EditCourse.this, "Failed", Toast.LENGTH_SHORT).show();
                 }
             }
         });

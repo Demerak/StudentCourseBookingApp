@@ -201,8 +201,8 @@ public class HomeInstructorActivity extends AppCompatActivity {
                             if (document.get("instructor") == null) {
                                 // Add instructor to Course
                                 Map<String, Object> course = new HashMap<>();
-                                course.put("name", name);
-                                course.put("number", number);
+                                course.put(CourseField.name.toString(), name);
+                                course.put(CourseField.courseId.toString(), number);
                                 course.put("instructor", currentUser.getUid());
 
                                 db.collection("courses").document(id)
@@ -244,8 +244,8 @@ public class HomeInstructorActivity extends AppCompatActivity {
     private void unAssignFromThisCourse(String id, String name, String number){
         // get course document matching given id, put fields that we want to preserve
         Map<String, Object> course = new HashMap<>();
-        course.put("name", name);
-        course.put("number", number);
+        course.put(CourseField.name.toString(), name);
+        course.put(CourseField.courseId.toString(), number);
         db.collection("courses").document(id)
                 .set(course)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -316,8 +316,8 @@ public class HomeInstructorActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
                         if (document.get("instructor") == null) {
-                            String courseName = document.getString("name");
-                            String courseNum = document.getString("number");
+                            String courseName = document.getString(CourseField.name.toString());
+                            String courseNum = document.getString(CourseField.courseId.toString());
                             String docString = courseName + " -- " + courseNum;
 
 
@@ -334,14 +334,14 @@ public class HomeInstructorActivity extends AppCompatActivity {
                             });
 
                             btn.setTextSize(12);
-                            if (Objects.requireNonNull(document.getString("name")).equalsIgnoreCase(searchquery) ||
-                                Objects.requireNonNull(document.getString("number")).equalsIgnoreCase(searchquery)){
+                            if (Objects.requireNonNull(document.getString(CourseField.name.toString())).equalsIgnoreCase(searchquery) ||
+                                Objects.requireNonNull(document.getString(CourseField.courseId.toString())).equalsIgnoreCase(searchquery)){
 
                                 layoutCourse.addView(btn);
                             }
                         } else {
-                            String courseName = document.getString("name");
-                            String courseNum = document.getString("number");
+                            String courseName = document.getString(CourseField.name.toString());
+                            String courseNum = document.getString(CourseField.courseId.toString());
 
                             db.collection("users")
                                     .document(document.getString("instructor"))
@@ -443,8 +443,8 @@ public class HomeInstructorActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
                         if (document.get("instructor") == null) {
-                            String courseName = document.getString("name");
-                            String courseNum = document.getString("number");
+                            String courseName = document.getString(CourseField.name.toString());
+                            String courseNum = document.getString(CourseField.courseId.toString());
                             String docString = courseName + " -- " + courseNum;
 
 
@@ -466,8 +466,8 @@ public class HomeInstructorActivity extends AppCompatActivity {
 
 
                         } else {
-                            String courseName = document.getString("name");
-                            String courseNum = document.getString("number");
+                            String courseName = document.getString(CourseField.name.toString());
+                            String courseNum = document.getString(CourseField.courseId.toString());
 
                             db.collection("users")
                                     .document(document.getString("instructor"))
@@ -534,8 +534,8 @@ public class HomeInstructorActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         if (document.get("instructor") == null) {
 
-                            String courseName = document.getString("name");
-                            String courseNum = document.getString("number");
+                            String courseName = document.getString(CourseField.name.toString());
+                            String courseNum = document.getString(CourseField.courseId.toString());
                             String docString = courseName + " -- " + courseNum;
 
                             Button btn = new Button(HomeInstructorActivity.this);
@@ -573,7 +573,7 @@ public class HomeInstructorActivity extends AppCompatActivity {
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        // Get all documents in course collection and display those that have an instrucotr field that match current user UID
+        // Get all documents in course collection and display those that have an instructor field that match current user UID
         db.collection("courses").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -582,8 +582,8 @@ public class HomeInstructorActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         //list.add(document.getId());
                         if (Objects.equals(document.getString("instructor"), currentUser.getUid())) {
-                            String textName = document.getString("name");
-                            String textNum = document.getString("number");
+                            String textName = document.getString(CourseField.name.toString());
+                            String textNum = document.getString(CourseField.courseId.toString());
                             String docString = textName + " -- " + textNum;
                             TextView tv = new TextView(HomeInstructorActivity.this);
                             tv.setText(docString);
@@ -624,7 +624,7 @@ public class HomeInstructorActivity extends AppCompatActivity {
                         //list.add(document.getId());
                         if (Objects.equals(document.getString("instructor"), currentUser.getUid())) {
                             String courseName = document.getString("name");
-                            String courseNum = document.getString("number");
+                            String courseNum = document.getString("courseId");
                             String docString = courseName + " -- " + courseNum;
 
                             Button btn = new Button(HomeInstructorActivity.this);

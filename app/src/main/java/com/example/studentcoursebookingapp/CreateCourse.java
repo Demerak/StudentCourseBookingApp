@@ -10,22 +10,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 public class CreateCourse extends AppCompatActivity implements View.OnClickListener {
 
     private EditText editCourseName;
     private EditText editCourseNumber;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private Button deleteBtn, goBack;
+    private Button returnHomeActivityBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,52 +31,15 @@ public class CreateCourse extends AppCompatActivity implements View.OnClickListe
         editCourseName = findViewById(R.id.course_name_field);
         editCourseNumber = findViewById(R.id.course_number_field);
         findViewById(R.id.submit_entry_btn).setOnClickListener(this);
-        deleteBtn = findViewById(R.id.delete_course_btn);
-        goBack = findViewById(R.id.go_back_btn_create_course);
+        returnHomeActivityBtn = findViewById(R.id.go_back_btn_create_course);
 
-        deleteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String coursename = editCourseName.getText().toString();
-                editCourseName.setText("");
-                String coursecode = editCourseNumber.getText().toString();
-                editCourseNumber.setText("");
-                DeleteData(coursename);
-            }
-        });
-
-        goBack.setOnClickListener(new View.OnClickListener() {
+        returnHomeActivityBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Go back Course Activity
                 Intent intent = new Intent(CreateCourse.this, CoursesActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-            }
-        });
-    }
-
-    private void DeleteData(String coursename) {
-        db.collection("courses").whereEqualTo("name", coursename).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful() && !task.getResult().isEmpty()) {
-                    DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
-                    String documentID = documentSnapshot.getId();
-                    db.collection("courses").document(documentID).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            Toast.makeText(CreateCourse.this, "Successfully deleted!", Toast.LENGTH_SHORT).show();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(CreateCourse.this, "Error occurred!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                } else {
-                    Toast.makeText(CreateCourse.this, "Failed", Toast.LENGTH_SHORT).show();
-                }
             }
         });
     }
