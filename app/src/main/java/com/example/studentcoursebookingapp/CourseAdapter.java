@@ -1,7 +1,6 @@
 package com.example.studentcoursebookingapp;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,7 +62,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.MyViewHold
                     Log.d("ClickWork", "OnClick: Edit Course Click");
                     int position = getAdapterPosition();
 
-                    Intent editCourseIntent = new Intent(v.getContext(), EditCourse.class);
+                    Intent editCourseIntent = new Intent(v.getContext(), EditCourseAdmin.class);
                     Log.d("ClickWork", courseArrayList.get(position).getName());
                     Course course = courseArrayList.get(position);
                     editCourseIntent.putExtra("course", course);

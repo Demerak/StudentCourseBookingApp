@@ -278,9 +278,24 @@ public class HomeInstructorActivity extends AppCompatActivity {
         layoutCourse.addView(ttv);
 
         // Button to unassigned current user from course
+        Button editBtn = new Button(HomeInstructorActivity.this);
+        String btnString = "Edit Course";
+        editBtn.setText(btnString);
+
         Button deleteBtn = new Button(HomeInstructorActivity.this);
-        String btnString = "unAssign course";
+        btnString = "unAssign course";
         deleteBtn.setText(btnString);
+
+        editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Course course = new Course(name, number);
+                Intent editCourseIntent = new Intent(HomeInstructorActivity.this, EditCourseInstructor.class);
+                Log.d("ClickWork", course.getName());
+                editCourseIntent.putExtra("course", course);
+                startActivity(editCourseIntent);
+            }
+        });
 
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -288,6 +303,8 @@ public class HomeInstructorActivity extends AppCompatActivity {
                 unAssignFromThisCourse(id,name,number);
             }
         });
+
+        layoutCourse.addView(editBtn);
         layoutCourse.addView(deleteBtn);
 
 
@@ -623,8 +640,8 @@ public class HomeInstructorActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         //list.add(document.getId());
                         if (Objects.equals(document.getString("instructor"), currentUser.getUid())) {
-                            String courseName = document.getString("name");
-                            String courseNum = document.getString("courseId");
+                            String courseName = document.getString(CourseField.name.toString());
+                            String courseNum = document.getString(CourseField.courseId.toString());
                             String docString = courseName + " -- " + courseNum;
 
                             Button btn = new Button(HomeInstructorActivity.this);

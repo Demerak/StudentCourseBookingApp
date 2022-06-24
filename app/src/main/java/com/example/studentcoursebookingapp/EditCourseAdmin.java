@@ -23,7 +23,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EditCourse extends AppCompatActivity {
+public class EditCourseAdmin extends AppCompatActivity {
 
     private Button applyChangeBtn, deleteBtn, returnHomeBtn;
     private TextView courseName, courseId, courseDesc, courseCapacity;
@@ -124,7 +124,7 @@ public class EditCourse extends AppCompatActivity {
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-                            Toast.makeText(EditCourse.this, "successfully updated data", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditCourseAdmin.this, "successfully updated data", Toast.LENGTH_SHORT).show();
                             course.setName(name);
                             course.setCourseId(id);
                             course.setCourseDescription(desc);
@@ -134,11 +134,11 @@ public class EditCourse extends AppCompatActivity {
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(EditCourse.this, "error updated data", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditCourseAdmin.this, "error updated data", Toast.LENGTH_SHORT).show();
                         }
                     });
                 } else {
-                    Toast.makeText(EditCourse.this, "Failed",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditCourseAdmin.this, "Failed",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -146,7 +146,7 @@ public class EditCourse extends AppCompatActivity {
 
     public void goBackToHomeActivity() {
         // Go back Course Activity
-        Intent intent = new Intent(EditCourse.this, CoursesActivity.class);
+        Intent intent = new Intent(EditCourseAdmin.this, CoursesActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
@@ -160,17 +160,17 @@ public class EditCourse extends AppCompatActivity {
                     db.collection("courses").document(documentSnapshot.getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-                            Toast.makeText(EditCourse.this, "Successfully deleted!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditCourseAdmin.this, "Successfully deleted!", Toast.LENGTH_SHORT).show();
                             goBackToHomeActivity();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(EditCourse.this, "Error occurred!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditCourseAdmin.this, "Error occurred!", Toast.LENGTH_SHORT).show();
                         }
                     });
                 } else {
-                    Toast.makeText(EditCourse.this, "Failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditCourseAdmin.this, "Failed", Toast.LENGTH_SHORT).show();
                 }
             }
         });
