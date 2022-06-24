@@ -13,6 +13,7 @@ public class TimeSlot implements Parcelable {
     private LocalTime startingTime;
     private LocalTime endTime;
     private CourseType courseType;
+    // TODO add what weekday
 
     public TimeSlot(LocalTime startingTime, LocalTime endTime, CourseType courseType) {
         this.startingTime = startingTime;
