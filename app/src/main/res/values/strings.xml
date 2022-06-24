@@ -26,4 +26,11 @@
     <string name="submit_name_change">Submit Name Change</string>
     <string name="view_account">view_account</string>
     <string name="view_accounts">View Accounts</string>
+    <string-array name="dayOfWeek">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+    </string-array>
 </resources>

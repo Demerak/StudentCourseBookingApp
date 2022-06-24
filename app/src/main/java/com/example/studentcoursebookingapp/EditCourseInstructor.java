@@ -3,13 +3,17 @@ package com.example.studentcoursebookingapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,13 +25,20 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class EditCourseInstructor extends AppCompatActivity {
 
     private Button applyChangeBtn, deleteBtn, returnHomeBtn;
     private TextView courseName, courseId, courseDesc, courseCapacity;
-    private EditText newName, newId, newDesc, newCap;
+    private EditText newDesc, newCap;
+    private Button startTimeBtn;
+    private Button endTimeBtn;
+    private int hour, min;
+    private Spinner dayOfWeekSpinner, dayOfWeekSpinner2;
+    private ArrayAdapter<String> spinnerAdapter;
+
     private Course course;
     private FirebaseFirestore db;
 
@@ -45,6 +56,18 @@ public class EditCourseInstructor extends AppCompatActivity {
         courseId = findViewById(R.id.courseId_inst);
         courseDesc = findViewById(R.id.courseDescription_inst);
         courseCapacity = findViewById(R.id.courseCapacity_inst);
+        startTimeBtn = findViewById(R.id.startTime);
+        endTimeBtn = findViewById(R.id.endTime);
+        dayOfWeekSpinner = findViewById(R.id.spinnerDayOfWeek);
+        dayOfWeekSpinner2 = findViewById(R.id.spinnerDayOfWeek2);
+
+        spinnerAdapter = new ArrayAdapter<>(EditCourseInstructor.this,
+                android.R.layout.simple_list_item_1,
+                getResources().getStringArray(R.array.dayOfWeek));
+        // use android default spinner dropdown
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dayOfWeekSpinner.setAdapter(spinnerAdapter);
+        dayOfWeekSpinner2.setAdapter(spinnerAdapter);
 
         db = FirebaseFirestore.getInstance();
 
@@ -58,15 +81,26 @@ public class EditCourseInstructor extends AppCompatActivity {
         applyChangeBtn = findViewById(R.id.applyChangeInstBtn);
         returnHomeBtn = findViewById(R.id.returnHomeInstBtn);
 
+        startTimeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popTimePicker(startTimeBtn);
+            }
+        });
+
+        endTimeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popTimePicker(endTimeBtn);
+            }
+        });
+
         applyChangeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UpdateData(newName.getText().toString(),
-                        newId.getText().toString(),
+                UpdateData(
                         newDesc.getText().toString(),
                         newCap.getText().toString());
-                newName.setText("");
-                newId.setText("");
                 newDesc.setText("");
                 newCap.setText("");
             }
@@ -80,6 +114,22 @@ public class EditCourseInstructor extends AppCompatActivity {
         });
     }
 
+    private void popTimePicker(View view) {
+        TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int selectHour, int selectMin) {
+                hour = selectHour;
+                min = selectMin;
+                Button timeBtn = (Button) view;
+                timeBtn.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, min));
+            }
+        };
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, onTimeSetListener, hour, min, true);
+        timePickerDialog.setTitle("Start Time");
+        timePickerDialog.show();
+    }
+
     private void setCourseData() {
         // set the edit text default text with the course details
         courseName.setText(course.getName());
@@ -91,11 +141,11 @@ public class EditCourseInstructor extends AppCompatActivity {
         newCap.setText(course.getStudentCapacity());
     }
 
-    private void UpdateData(String name, String id, String desc, String cap) {
+    private void UpdateData(String desc, String cap) {
 
         Map<String,Object> courseDetails = new HashMap<>();
-        courseDetails.put(CourseField.name.toString(), name);
-        courseDetails.put(CourseField.courseId.toString(), id);
+        courseDetails.put(CourseField.name.toString(), courseName);
+        courseDetails.put(CourseField.courseId.toString(), courseId);
         courseDetails.put(CourseField.courseDescription.toString(), desc);
         courseDetails.put(CourseField.studentCapacity.toString(), cap);
 
@@ -113,8 +163,6 @@ public class EditCourseInstructor extends AppCompatActivity {
                                         @Override
                                         public void onSuccess(Void unused) {
                                             Toast.makeText(EditCourseInstructor.this, "successfully updated data", Toast.LENGTH_SHORT).show();
-                                            course.setName(name);
-                                            course.setCourseId(id);
                                             course.setCourseDescription(desc);
                                             course.setStudentCapacity(cap);
                                             setCourseData();

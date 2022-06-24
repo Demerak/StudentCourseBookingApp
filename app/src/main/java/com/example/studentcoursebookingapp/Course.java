@@ -1,9 +1,13 @@
 package com.example.studentcoursebookingapp;
 
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.RequiresApi;
+
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +29,13 @@ public class Course implements Parcelable {
         this.courseId = courseId;
         this.courseDescription = courseDescription;
         this.studentCapacity = studentCapacity;
+
+        TimeSlot firstCourse = new TimeSlot(LocalTime.of(0,0), LocalTime.of(0,0), CourseType.Lecture);
+        TimeSlot secondCourse = new TimeSlot(LocalTime.of(0,0), LocalTime.of(0,0), CourseType.Lecture);
+
+        this.timeSlot = new ArrayList<>();
+        this.timeSlot.add(firstCourse);
+        this.timeSlot.add(secondCourse);
     }
 
     protected Course(Parcel in) {
@@ -45,11 +56,6 @@ public class Course implements Parcelable {
             return new Course[size];
         }
     };
-
-    public void addTimeSlot(LocalDateTime startTime, LocalDateTime endTime, CourseType type) {
-        TimeSlot newTimeSlot = new TimeSlot(startTime, endTime, type);
-        timeSlot.add(newTimeSlot);
-    }
 
     public String getName() {
         return name;
@@ -86,5 +92,6 @@ public class Course implements Parcelable {
         parcel.writeString(this.courseId);
         parcel.writeString(this.courseDescription);
         parcel.writeString(this.studentCapacity);
+        parcel.writeTypedList(this.timeSlot);
     }
 }

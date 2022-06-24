@@ -1,30 +1,62 @@
 package com.example.studentcoursebookingapp;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.time.LocalDateTime; // Import the LocalDateTime class
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter; // Import the DateTimeFormatter class
 
 
-public class TimeSlot {
+public class TimeSlot implements Parcelable {
 
-    private LocalDateTime startingTime;
-    private LocalDateTime endTime;
+    private LocalTime startingTime;
+    private LocalTime endTime;
     private CourseType courseType;
 
-    public TimeSlot(LocalDateTime startingTime, LocalDateTime endTime, CourseType courseType) {
+    public TimeSlot(LocalTime startingTime, LocalTime endTime, CourseType courseType) {
         this.startingTime = startingTime;
         this.endTime = endTime;
         this.courseType = courseType;
     }
 
-    public void setStartingTime(LocalDateTime startingTime) {
+    protected TimeSlot(Parcel in) {
+
+    }
+
+    public static final Creator<TimeSlot> CREATOR = new Creator<TimeSlot>() {
+        @Override
+        public TimeSlot createFromParcel(Parcel in) {
+            return new TimeSlot(in);
+        }
+
+        @Override
+        public TimeSlot[] newArray(int size) {
+            return new TimeSlot[size];
+        }
+    };
+
+    public void setStartingTime(LocalTime startingTime) {
         this.startingTime = startingTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
 
     public void setCourseType(CourseType courseType) {
         this.courseType = courseType;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(startingTime.toString());
+        parcel.writeString(endTime.toString());
+        parcel.writeString(courseType.toString());
     }
 }
