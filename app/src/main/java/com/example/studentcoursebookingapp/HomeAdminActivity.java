@@ -47,9 +47,8 @@ public class HomeAdminActivity extends AppCompatActivity {
         usr_name_view = findViewById(R.id.blanc1);
         usr_role_view = findViewById(R.id.blanc2);
 
-        signOutButton = findViewById(R.id.sign_out_btn);
+        signOutButton = findViewById(R.id.sign_out_btn_admin);
         signOutButton.setOnClickListener(signOut);
-
 
         openCoursePageButton = findViewById(R.id.view_courses_page_btn);
         openCoursePageButton.setOnClickListener(coursePageButtonClick);

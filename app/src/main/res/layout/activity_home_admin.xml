@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     android:background="@color/light_grey"
     android:statusBarColor="@color/garnet"
-    tools:context=".HomeActivity"
+    android:id="@+id/adminHomeActivity"
+    tools:context=".HomeAdminActivity"
     >
 
     <ImageView
@@ -51,7 +52,7 @@
             android:textColor="@color/white" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/sign_out_btn"
+            android:id="@+id/sign_out_btn_admin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"

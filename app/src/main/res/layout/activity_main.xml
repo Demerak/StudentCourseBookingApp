@@ -54,7 +54,7 @@
         app:srcCompat="@drawable/uottawa_hor_black" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/signInBtn"
+        android:id="@+id/signInBtnLogin"
         android:layout_width="169dp"
         android:layout_height="55dp"
         android:layout_marginBottom="135dp"
@@ -74,7 +74,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signInBtn"
+        app:layout_constraintTop_toBottomOf="@+id/signInBtnLogin"
         app:layout_constraintVertical_bias="0.115">
 
         <TextView

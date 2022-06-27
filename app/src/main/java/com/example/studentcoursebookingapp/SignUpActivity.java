@@ -55,8 +55,8 @@ public class SignUpActivity extends AppCompatActivity {
         defaultPassword = getResources().getString(R.string.pwd);
         defaultPasswordConf = getResources().getString(R.string.confirmPwd);
 
-        userNameTextField = findViewById(R.id.email);
-        pwdTextField = findViewById(R.id.pwd);
+        userNameTextField = findViewById(R.id.emailSignUp);
+        pwdTextField = findViewById(R.id.pwdSignUp);
         pwdConfTextField = findViewById(R.id.pwdconf);
 
         signUpBtn = findViewById(R.id.signUpBtn);
