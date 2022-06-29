@@ -200,12 +200,6 @@ public class SignUpActivity extends AppCompatActivity {
     SIGN IN METHODS
     ////////////////////////////////////////////////////////////////////////////////////*/
 
-    //Sends user to page after login screen
-    private void sendUserToMain() {
-        Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
     private View.OnClickListener signIn = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -233,15 +227,18 @@ public class SignUpActivity extends AppCompatActivity {
     private void signUpMethod() {
         String userName = userNameTextField.getText().toString();
         String password = pwdTextField.getText().toString();
+        String passwordConf = pwdConfTextField.getText().toString();
 
 
 
         if (userName.equals(getResources().getString(R.string.userName)) || password.equals(getResources().getString(R.string.pwd)) || userName.equals("") || password.equals("")) {
             Toast.makeText(SignUpActivity.this, "Enter your Username and Password", Toast.LENGTH_LONG).show();
-        } else if (!password.equals(pwdConfTextField.getText().toString())) {
+        } else if (!password.equals(passwordConf)) {
             Toast.makeText(SignUpActivity.this, "Passwords don't match", Toast.LENGTH_LONG).show();
-        } else if (password.length() < 6) {
+        } else if (Account.isValidPassword(password)) {
             Toast.makeText(SignUpActivity.this, "Passwords too short", Toast.LENGTH_LONG).show();
+        } else if (Account.isValidUsername(userName)) {
+            Toast.makeText(SignUpActivity.this, "Username not accepted", Toast.LENGTH_LONG).show();
         } else if (userType == null) {
             Toast.makeText(SignUpActivity.this, "Select Role", Toast.LENGTH_LONG).show();
         } else {
@@ -297,18 +294,9 @@ public class SignUpActivity extends AppCompatActivity {
                             }
                         }
                     });
-
-
         }
-
     }
 
-
-    private void sendUserToHomeAdmin() {
-        Intent intent = new Intent(SignUpActivity.this, HomeAdminActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
     private void sendUserToHomeTeacher() {
         Intent intent = new Intent(SignUpActivity.this, HomeInstructorActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
