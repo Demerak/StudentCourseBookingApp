@@ -485,6 +485,7 @@ public class HomeInstructorActivity extends AppCompatActivity {
                         } else {
                             String courseName = document.getString(CourseField.name.toString());
                             String courseNum = document.getString(CourseField.courseId.toString());
+                            String courseID = document.getId();
 
                             db.collection("users")
                                     .document(document.getString("instructor"))
@@ -507,7 +508,7 @@ public class HomeInstructorActivity extends AppCompatActivity {
                                                 btn.setOnClickListener(new View.OnClickListener() {
                                                     @Override
                                                     public void onClick(View view){
-                                                        teachCourse(document.getId(),courseName,courseNum,1);
+                                                        teachCourse(courseID,courseName,courseNum,1);
                                                     }
                                                 });
 
