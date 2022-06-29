@@ -42,11 +42,10 @@ public class HomeStudentActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         usr_name_view = findViewById(R.id.blanc1);
-        usr_role_view = findViewById(R.id.blanc2);
+        usr_role_view = findViewById(R.id.roleStudent);
 
-        signOutButton = findViewById(R.id.sign_out_btn);
+        signOutButton = findViewById(R.id.sign_out_btn_student);
         signOutButton.setOnClickListener(signOut);
-
 
         Window window = getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);

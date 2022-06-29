@@ -45,7 +45,7 @@ public class HomeAdminActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         usr_name_view = findViewById(R.id.blanc1);
-        usr_role_view = findViewById(R.id.blanc2);
+        usr_role_view = findViewById(R.id.roleAdmin);
 
         signOutButton = findViewById(R.id.sign_out_btn_admin);
         signOutButton.setOnClickListener(signOut);

@@ -66,7 +66,7 @@
         app:layout_constraintTop_toBottomOf="@+id/edit_assigned_courses_button" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/sign_out_btn"
+        android:id="@+id/sign_out_btn_instructor"
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:layout_marginStart="121dp"
@@ -109,7 +109,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/blanc2"
+                    android:id="@+id/roleInstructor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="user_role_text"

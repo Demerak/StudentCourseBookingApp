@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/light_grey"
     android:statusBarColor="@color/garnet"
+    android:id="@+id/studentHomeActivity"
     tools:context=".HomeStudentActivity"
     >
 
@@ -32,7 +33,7 @@
         app:layout_constraintTop_toBottomOf="@+id/uottawa_logo">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/sign_out_btn"
+            android:id="@+id/sign_out_btn_student"
             android:layout_width="169dp"
             android:layout_height="55dp"
             android:layout_marginBottom="10dp"
@@ -84,7 +85,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/blanc2"
+                    android:id="@+id/roleStudent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="user_role_text"

@@ -67,9 +67,9 @@ public class HomeInstructorActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         usr_name_view = findViewById(R.id.blanc1);
-        usr_role_view = findViewById(R.id.blanc2);
+        usr_role_view = findViewById(R.id.roleInstructor);
 
-        signOutButton = findViewById(R.id.sign_out_btn);
+        signOutButton = findViewById(R.id.sign_out_btn_instructor);
         signOutButton.setOnClickListener(signOut);
 
         assignedCourseButton = findViewById(R.id.view_assigned_courses_button);

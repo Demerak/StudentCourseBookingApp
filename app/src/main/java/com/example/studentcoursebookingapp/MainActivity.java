@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         userNameTextField = findViewById(R.id.email);
         pwdTextField = findViewById(R.id.pwd);
         signInBtn = findViewById(R.id.signInBtnLogin);
-        signUpBtn = findViewById(R.id.signUpBtn);
+        signUpBtn = findViewById(R.id.signUpBtnLogin);
 
         userNameTextField.setOnEditorActionListener(userNameListener);
         userNameTextField.setOnFocusChangeListener(onFocusListener);
