@@ -23,7 +23,8 @@ public class SelectCourseStudentActivity extends AppCompatActivity {
 
     private Button homeBtn;
     private FirebaseFirestore db;
-    private ArrayList<Course> courseList;
+    private ArrayList<Course> courseListNotEnroll;
+    private ArrayList<Course> courseListEnroll;
     private RecyclerView recyclerViewEnroll;
     private RecyclerView recyclerViewUnEnroll;
     private CourseAdapterEnroll courseAdapterEnroll;
@@ -43,8 +44,11 @@ public class SelectCourseStudentActivity extends AppCompatActivity {
         recyclerViewUnEnroll.setLayoutManager(new LinearLayoutManager((this)));
 
         db = db.getInstance();
-        courseList = new ArrayList<Course>();
-        courseAdapterEnroll = new CourseAdapterEnroll(SelectCourseStudentActivity.this, courseList);
+        courseListNotEnroll = new ArrayList<Course>();
+        courseListEnroll = new ArrayList<Course>();
+
+        courseAdapterEnroll = new CourseAdapterEnroll(SelectCourseStudentActivity.this, courseListNotEnroll);
+        courseAdapterUnEnroll = new CourseAdapterUnEnroll(SelectCourseStudentActivity.this, courseListEnroll);
 
         recyclerViewEnroll.setAdapter(courseAdapterEnroll);
 
@@ -68,7 +72,7 @@ public class SelectCourseStudentActivity extends AppCompatActivity {
                 if (value != null){
                     for (DocumentSnapshot document: value.getDocuments()) {
                         Log.d("SUCCESS", document.getId() + " => " + document.getData() + document.toObject(Course.class).getName());
-                        courseList.add(document.toObject(Course.class));
+                        courseListNotEnroll.add(document.toObject(Course.class));
                     }
                     courseAdapterEnroll.notifyDataSetChanged();
                 }

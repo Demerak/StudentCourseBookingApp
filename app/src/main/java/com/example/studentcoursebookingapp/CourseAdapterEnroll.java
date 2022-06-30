@@ -65,8 +65,8 @@ public class CourseAdapterEnroll extends RecyclerView.Adapter<CourseAdapterEnrol
                     Log.d("ClickWork", courseArrayList.get(position).getName());
                     Course course = courseArrayList.get(position);
 
-                    // TODO
 
+                    // TODO
 
 
                 }
