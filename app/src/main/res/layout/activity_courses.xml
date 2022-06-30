@@ -8,7 +8,7 @@
     android:background="@color/light_grey"
     android:backgroundTint="@color/light_grey"
     android:statusBarColor="@color/garnet"
-    tools:context=".HomeActivity">
+    tools:context=".CoursesActivity">
 
 
     <LinearLayout
