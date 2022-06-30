@@ -49,7 +49,7 @@ public class UITest {
     public void testA_adminLogin() throws InterruptedException {
         Thread.sleep(3000); // allow the app to launch
         signOut();
-        Thread.sleep(5000);
+        Thread.sleep(4000);
 
         Log.d("errorHere", "role in meth: " + role);
         if (role != null) {
@@ -76,7 +76,7 @@ public class UITest {
 //                // and exited the app without signing out, we need to sign out the current user
 //            }
 //        }
-        Thread.sleep(2500); // allow the app to launch
+        Thread.sleep(1500); // allow the app to launch
         onView(withId(R.id.email)).perform(typeText("admin"), closeSoftKeyboard());
         onView(withId(R.id.pwd)).perform(typeText("admin123"), closeSoftKeyboard());
         onView(withId(R.id.signInBtnLogin)).perform(click());
@@ -126,16 +126,15 @@ public class UITest {
 
         onView(withId(R.id.signUpBtnLogin)).perform(click());
         SecureRandom random = new SecureRandom();
-        int randomNum = random.nextInt(100000);
-        String userName = "testStudent" + randomNum;
-        String pwd = "Stud" + randomNum;
+        int randomNum = random.nextInt(1000);
+        String userName = "testStud" + Integer.toString(randomNum);
+        String pwd = "Stud$" + Integer.toString(randomNum);
 
         onView(withId(R.id.emailSignUp)).perform(typeText(userName), closeSoftKeyboard());
         onView(withId(R.id.pwdSignUp)).perform(typeText(pwd), closeSoftKeyboard());
         onView(withId(R.id.pwdconf)).perform(typeText(pwd), closeSoftKeyboard());
-        Thread.sleep(2500);
         onView(withId(R.id.student)).perform(click());
-        Thread.sleep(2500);
+        Thread.sleep(1500);
         onView(withId(R.id.signUpBtn)).perform(click());
         Thread.sleep(2500);
         onView(withId(R.id.roleStudent)).check(matches(isDisplayed()));
@@ -146,7 +145,7 @@ public class UITest {
         // this test will check if the user is still login even if the app close
         Thread.sleep(3000);
         signOut();
-        Thread.sleep(5000);
+        Thread.sleep(4000);
         Log.d("errorHere", "role in meth: " + role);
         if (role != null) {
             switch (role) {
@@ -164,16 +163,15 @@ public class UITest {
 
         onView(withId(R.id.signUpBtnLogin)).perform(click());
         SecureRandom random = new SecureRandom();
-        int randomNum = random.nextInt(100000);
-        String userName = "testInst" + randomNum;
-        String pwd = "Inst" + randomNum;
+        int randomNum = random.nextInt(1000);
+        String userName = "testInst" + Integer.toString(randomNum);
+        String pwd = "Inst$" + Integer.toString(randomNum);
 
         onView(withId(R.id.emailSignUp)).perform(typeText(userName), closeSoftKeyboard());
         onView(withId(R.id.pwdSignUp)).perform(typeText(pwd), closeSoftKeyboard());
         onView(withId(R.id.pwdconf)).perform(typeText(pwd), closeSoftKeyboard());
-        Thread.sleep(2500);
         onView(withId(R.id.instructor)).perform(click());
-        Thread.sleep(2500);
+        Thread.sleep(1500);
         onView(withId(R.id.signUpBtn)).perform(click());
         Thread.sleep(2500);
         onView(withId(R.id.roleInstructor)).check(matches(isDisplayed()));

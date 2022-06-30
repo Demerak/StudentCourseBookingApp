@@ -28,7 +28,7 @@ public class Account {
     public static boolean isValidPassword(String pwd) {
         String regex = "^(?=.*[0-9])" // digit must occur at least once
                 + "(?=.*[a-z])(?=.*[A-Z])" // lower case letter and upper case letter must occur at least once for each
-                + "(?=\\S+$).{6,12}$"; // spaces aren't allow and the password length must be at least 6 but at most 12
+                + "(?=\\S+$).{6,14}$"; // spaces aren't allow and the password length must be at least 6 but at most 12
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(pwd);
         return m.matches();

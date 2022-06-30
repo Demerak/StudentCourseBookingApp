@@ -53,4 +53,7 @@ public class AccountTest {
         assertFalse(Account.isValidPassword(""));
     }
 
+    @Test
+    public void isValidPassword4() { assertTrue(Account.isValidPassword("Inst$123"));
+    }
 }

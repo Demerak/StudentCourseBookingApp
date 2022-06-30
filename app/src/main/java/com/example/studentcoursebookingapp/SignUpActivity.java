@@ -235,10 +235,10 @@ public class SignUpActivity extends AppCompatActivity {
             Toast.makeText(SignUpActivity.this, "Enter your Username and Password", Toast.LENGTH_LONG).show();
         } else if (!password.equals(passwordConf)) {
             Toast.makeText(SignUpActivity.this, "Passwords don't match", Toast.LENGTH_LONG).show();
-        } else if (Account.isValidPassword(password)) {
-            Toast.makeText(SignUpActivity.this, "Passwords too short", Toast.LENGTH_LONG).show();
-        } else if (Account.isValidUsername(userName)) {
-            Toast.makeText(SignUpActivity.this, "Username not accepted", Toast.LENGTH_LONG).show();
+        } else if (!Account.isValidUsername(userName)) {
+            Toast.makeText(SignUpActivity.this, "Username invalid", Toast.LENGTH_LONG).show();
+        } else if (!Account.isValidPassword(password)) {
+            Toast.makeText(SignUpActivity.this, "Passwords invalid", Toast.LENGTH_LONG).show();
         } else if (userType == null) {
             Toast.makeText(SignUpActivity.this, "Select Role", Toast.LENGTH_LONG).show();
         } else {
