@@ -30,7 +30,7 @@ public class HomeStudentActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseUser mUser;
 
-    private Button signOutButton;
+    private Button viewCourseBtn, signOutBtn;
     private Button openCoursePageButton;
 
     @Override
@@ -44,8 +44,11 @@ public class HomeStudentActivity extends AppCompatActivity {
         usr_name_view = findViewById(R.id.blanc1);
         usr_role_view = findViewById(R.id.roleStudent);
 
-        signOutButton = findViewById(R.id.sign_out_btn_student);
-        signOutButton.setOnClickListener(signOut);
+        viewCourseBtn = findViewById(R.id.viewCourseBtn_Student);
+        viewCourseBtn.setOnClickListener(viewCourse);
+
+        signOutBtn = findViewById(R.id.sign_out_btn_student);
+        signOutBtn.setOnClickListener(signOut);
 
         Window window = getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -53,8 +56,6 @@ public class HomeStudentActivity extends AppCompatActivity {
         window.setStatusBarColor(Color.parseColor("#8E001A"));
 
     }
-
-
 
     @Override
     public void onStart() {
@@ -86,6 +87,15 @@ public class HomeStudentActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    private View.OnClickListener viewCourse = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(HomeStudentActivity.this, SelectCourseStudentActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+    };
 
     private View.OnClickListener signOut = new View.OnClickListener() {
         @Override
