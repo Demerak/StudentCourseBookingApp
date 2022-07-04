@@ -1,6 +1,7 @@
 package com.example.studentcoursebookingapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,15 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -26,7 +36,7 @@ public class CourseAdapterUnEnroll extends RecyclerView.Adapter<CourseAdapterUnE
     @Override
     public CourseAdapterUnEnroll.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View v = LayoutInflater.from(context).inflate(R.layout.course_list_item_student_enroll, parent, false);
+        View v = LayoutInflater.from(context).inflate(R.layout.course_list_item_student_unenroll, parent, false);
 
         return new CourseAdapterUnEnroll.MyViewHolder(v, courseArrayList);
     }
@@ -45,7 +55,9 @@ public class CourseAdapterUnEnroll extends RecyclerView.Adapter<CourseAdapterUnE
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView courseName, courseNumber;
+        private TextView courseName, courseNumber;
+        private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         public MyViewHolder(@NonNull View itemView, ArrayList<Course> courseArrayList) {
             super(itemView);
@@ -67,11 +79,27 @@ public class CourseAdapterUnEnroll extends RecyclerView.Adapter<CourseAdapterUnE
 
 
                     // TODO
+                    // add the course to the courseEnroll field of the user
+                    Log.d("ClickWork", String.valueOf(mAuth.getCurrentUser().getUid()));
+                    DocumentReference userDoc = db.collection("users").document(mAuth.getCurrentUser().getUid());
+                    db.collection("courses").whereEqualTo(CourseField.courseId.toString(),
+                            course.getCourseId()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                                DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
+                                String documentID = documentSnapshot.getId();
+                                userDoc.update(UserField.courseEnroll.toString(), FieldValue.arrayRemove(documentID));
+                            }
+                        }
+                    });
 
+                    // probably not the best way to do it but it's working
+                    Intent editCourseIntent = new Intent(v.getContext(), SelectCourseStudentActivity.class);
+                    editCourseIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    v.getContext().startActivity(editCourseIntent);
                 }
             });
-
-
         }
     }
 }

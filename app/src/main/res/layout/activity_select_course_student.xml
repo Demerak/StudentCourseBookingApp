@@ -10,20 +10,31 @@
     android:statusBarColor="@color/garnet"
     tools:context=".SelectCourseStudentActivity">
 
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:text="Course Enroll In"
+        android:paddingLeft="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        android:fontFamily="serif"
+        android:textSize="28sp"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewerStudSelectEnroll" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewerStudSelectEnroll"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:layout_margin="5dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="268dp"
         android:layout_marginRight="10dp"
         android:foregroundTint="@color/light_grey"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horoz_layout_top" />
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <LinearLayout
         android:id="@+id/horoz_layout_top"
@@ -63,13 +74,13 @@
         android:layout_height="250dp"
         android:layout_margin="5dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="52dp"
         android:layout_marginRight="10dp"
         android:foregroundTint="@color/light_grey"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerViewerStudSelectEnroll" />
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/homeBtnStudSelect"
@@ -90,11 +101,24 @@
         android:id="@+id/divider3"
         android:layout_width="391dp"
         android:layout_height="1dp"
-        android:layout_marginBottom="6dp"
         android:background="?android:attr/listDivider"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerViewerStudSelectUnEnroll"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewerStudSelectEnroll" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:text="Available Course"
+        android:paddingLeft="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.015"
+        app:layout_constraintStart_toStartOf="parent"
+        android:fontFamily="serif"
+        android:textSize="28sp"
+        app:layout_constraintTop_toBottomOf="@+id/horoz_layout_top" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
