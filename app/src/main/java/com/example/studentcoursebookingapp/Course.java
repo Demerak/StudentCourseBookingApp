@@ -14,14 +14,21 @@ import java.util.List;
 public class Course implements Parcelable {
     private String name, courseId, courseDescription;
     private String studentCapacity; // initially a int but it cause some problems
-    private List<TimeSlot> timeSlot;
+    private int courseStartHour1, courseStartMinute1, courseEndHour1, courseEndMinute1,
+            courseStartHour2, courseStartMinute2, courseEndHour2, courseEndMinute2 ;//courseDay1, courseDay2;
+    private String courseDay1;
+    private String courseDay2;
+    private String courseStartTime1;
+    private String courseStartTime2;
+    private String courseEndTime1;
+    private String courseEndTime2;
 
     public Course() {
         this("", "");
     }
 
     public Course(String name, String courseId) {
-        this(name, courseId, "","0");
+        this(name, courseId, "", "0");
     }
 
     public Course(String name, String courseId, String courseDescription, String studentCapacity) {
@@ -29,13 +36,6 @@ public class Course implements Parcelable {
         this.courseId = courseId;
         this.courseDescription = courseDescription;
         this.studentCapacity = studentCapacity;
-
-        TimeSlot firstCourse = new TimeSlot(LocalTime.of(0,0), LocalTime.of(0,0), CourseType.Lecture);
-        TimeSlot secondCourse = new TimeSlot(LocalTime.of(0,0), LocalTime.of(0,0), CourseType.Lecture);
-
-        this.timeSlot = new ArrayList<>();
-        this.timeSlot.add(firstCourse);
-        this.timeSlot.add(secondCourse);
     }
 
     protected Course(Parcel in) {
@@ -61,17 +61,25 @@ public class Course implements Parcelable {
         return name;
     }
 
-    public String getCourseId() { return courseId; }
+    public String getCourseId() {
+        return courseId;
+    }
 
-    public String getCourseDescription() { return courseDescription; }
+    public String getCourseDescription() {
+        return courseDescription;
+    }
 
-    public String getStudentCapacity() { return studentCapacity; }
+    public String getStudentCapacity() {
+        return studentCapacity;
+    }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setCourseId(String courseId) { this.courseId = courseId; }
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
 
     public void setCourseDescription(String courseDescription) {
         this.courseDescription = courseDescription;
@@ -92,6 +100,54 @@ public class Course implements Parcelable {
         parcel.writeString(this.courseId);
         parcel.writeString(this.courseDescription);
         parcel.writeString(this.studentCapacity);
-        parcel.writeTypedList(this.timeSlot);
     }
+
+    public void setCourseDay1(String day) {
+        this.courseDay1 = day;
+    }
+
+    public void setCourseDay2(String day) {
+        this.courseDay2 = day;
+    }
+
+    public void setCourseStartTime2(String courseStartTime2) {
+        this.courseStartTime2 = courseStartTime2;
+    }
+
+    public void setCourseEndTime1(String courseEndTime1) {
+        this.courseEndTime1 = courseEndTime1;
+    }
+
+    public void setCourseEndTime2(String courseEndTime2) {
+        this.courseEndTime2 = courseEndTime2;
+    }
+
+    public void setCourseStartTime1(String courseStartTime1) {
+        this.courseStartTime1 = courseStartTime1;
+    }
+
+    public String getCourseStartTime1() {
+        return courseStartTime1;
+    }
+
+    public String getCourseStartTime2() {
+        return courseStartTime2;
+    }
+
+    public String getCourseEndTime1() {
+        return courseEndTime1;
+    }
+
+    public String getCourseEndTime2() {
+        return courseEndTime2;
+    }
+
+    //    public int getCourseDay1() {
+//        return courseDay1;
+//    }
+//
+//    public int getCourseDay2() {
+//        return courseDay2;
+//    }
+
 }
