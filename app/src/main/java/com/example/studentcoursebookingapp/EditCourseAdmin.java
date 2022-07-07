@@ -64,6 +64,22 @@ public class EditCourseAdmin extends AppCompatActivity {
         applyChangeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String snewName = newName.getText().toString();
+                String snewId = newId.getText().toString();
+                String snewDesc = newDesc.getText().toString();
+                String snewCap = newCap.getText().toString();
+                String courseCodeRegex = "[A-Z]{3}\\s+[0-9]{4}";
+                if ((snewName.matches(""))|| (snewId.matches("")) || (snewDesc.matches("")) || (snewCap.matches(""))){
+                    Toast.makeText(EditCourseAdmin.this, "You have an empty input", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                int tempCap = Integer.parseInt(newCap.getText().toString());
+
+                if(tempCap >= 500 ){ //Max capacity is 500
+                    Toast.makeText(EditCourseAdmin.this, "The maximum capacity of a course is 500", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 UpdateData(newName.getText().toString(),
                         newId.getText().toString(),
                         newDesc.getText().toString(),
