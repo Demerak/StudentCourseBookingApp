@@ -114,6 +114,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:ems="10"
+                android:fontFamily="serif"
                 android:hint="New Course Description"
                 android:inputType="textPersonName" />
 
@@ -122,6 +123,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:ems="10"
+                android:fontFamily="serif"
                 android:hint="New Course Capacity"
                 android:inputType="number" />
 
@@ -135,6 +137,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
+                    android:fontFamily="serif"
                     android:text="Start Time"
                     android:inputType="date" />
 
@@ -143,6 +146,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
+                    android:fontFamily="serif"
                     android:text="End Time"
                     android:inputType="date" />
 
@@ -165,7 +169,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
+                    android:fontFamily="serif"
                     android:text="Start Time"
+
                     android:inputType="date" />
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -173,6 +179,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
+                    android:fontFamily="serif"
                     android:text="End Time"
                     android:inputType="date" />
 

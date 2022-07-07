@@ -225,17 +225,22 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             String role = document.getString("role");
-                            switch (role) {
-                                case "admin":
-                                    sendUserToHomeAdmin();
-                                    break;
-                                case "instructor":
-                                    sendUserToHomeTeacher();
-                                    break;
-                                case "student":
-                                    sendUserToHomeStudent();
-                                    break;
+                            try {
+                                switch (role) {
+                                    case "admin":
+                                        sendUserToHomeAdmin();
+                                        break;
+                                    case "instructor":
+                                        sendUserToHomeTeacher();
+                                        break;
+                                    case "student":
+                                        sendUserToHomeStudent();
+                                        break;
+                                }
+                            } catch (NullPointerException e) {
+
                             }
+
 
                         } else {
                             Log.d("TAG", "get failed with ", task.getException());
