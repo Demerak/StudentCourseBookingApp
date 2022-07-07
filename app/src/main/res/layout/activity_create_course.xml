@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/light_grey"
+    android:backgroundTint="@color/light_grey"
+    android:statusBarColor="@color/garnet"
     tools:context=".CreateCourse">
 
     <LinearLayout
@@ -85,7 +88,6 @@
                 android:layout_height="48dp"
                 android:background="@color/garnet"
                 android:backgroundTint="@color/garnet"
-                android:fontFamily="sans-serif-medium"
                 android:text="@string/submit_create"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
@@ -97,7 +99,6 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:background="@color/garnet"
-                android:fontFamily="sans-serif-medium"
                 android:text="Home"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
