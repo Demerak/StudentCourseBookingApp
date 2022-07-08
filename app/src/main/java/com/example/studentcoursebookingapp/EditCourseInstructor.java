@@ -149,7 +149,7 @@ public class EditCourseInstructor extends AppCompatActivity implements AdapterVi
                 }
                 int tempCap = Integer.parseInt(newCap.getText().toString());
 
-                if(tempCap >= 500 ) { //Max capacity is 500
+                if(tempCap > 500 ) { //Max capacity is 500
                     Toast.makeText(EditCourseInstructor.this, "The maximum capacity of a course is 500", Toast.LENGTH_SHORT).show();
                     return;
                 }
