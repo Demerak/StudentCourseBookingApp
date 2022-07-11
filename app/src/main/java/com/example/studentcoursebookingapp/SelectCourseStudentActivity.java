@@ -105,9 +105,6 @@ public class SelectCourseStudentActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        // TODO change to look at all the course that the student isn't enroll in
-        // TODO query the course that the student is enroll in and add to recyclerViewUnEnroll
-
         DocumentReference userDoc = db.collection("users").document(mAuth.getCurrentUser().getUid());
 
         List<String> result;
@@ -156,8 +153,6 @@ public class SelectCourseStudentActivity extends AppCompatActivity {
                                 }
                             }
                         });
-
-
                     }
                 });
             }
@@ -165,6 +160,13 @@ public class SelectCourseStudentActivity extends AppCompatActivity {
     }
 
     private void searchCourse() {
+        // Can currently only search by either the course name/code or by day of the week
+
+        Log.d("courseEnroll", courseEnrollList.toString());
+
+
+
+
         String query = searchText.getText().toString().trim();
         Log.d("Text", query);
 
@@ -180,15 +182,47 @@ public class SelectCourseStudentActivity extends AppCompatActivity {
                         courseListNotEnroll.clear();
                         Log.d("CourseCodeOrName", "Course Code Found In FireStore");
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            courseListNotEnroll.add(document.toObject(Course.class));
+                            if (!courseEnrollList.contains(document.getId())) {
+                                courseListNotEnroll.add(document.toObject(Course.class));
+                            }
                         }
                         courseAdapterAvailableCourses.notifyDataSetChanged();
                     }
                 }
             });
-        }else if (query.equals("") || query.equals("Search")) {
+        } else if (query.equals("") || query.equals("Search")) {
             Log.d("CourseCodeOrName", "Query Empty");
-            onStart();
+
+            String dayOfWeekShort = dayOfWeekSpinner.getSelectedItem().toString();
+            if (!dayOfWeekShort.equals("All")) {
+                String dayOfWeek = getFullDayOfWeek(dayOfWeekShort);
+                db.collection("courses").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            courseListNotEnroll.clear();
+                            for (QueryDocumentSnapshot document: task.getResult()) {
+                                Log.d("courseEnroll", "here" + document.getId());
+                                if (!courseEnrollList.contains(document.getId())) {
+                                    Course course = document.toObject(Course.class);
+                                    Log.d("courseData2", course.getCourseId());
+                                    Log.d("courseData2", course.getName());
+                                    Log.d("courseData2", course.getCourseDay1());
+                                    Log.d("courseData2", course.getCourseDay2());
+                                    Log.d("courseData2", dayOfWeek);
+                                    Log.d("courseData2", " ");
+                                    if (course.getCourseDay1().equals(dayOfWeek) || course.getCourseDay2().equals(dayOfWeek)) {
+                                        courseListNotEnroll.add(course);
+                                    }
+                                }
+                            }
+                            courseAdapterAvailableCourses.notifyDataSetChanged();
+                        }
+                    }
+                });
+            } else {
+                onStart();
+            }
         } else {
             Log.d("CourseCodeOrName", "Course Name");
             db.collection("courses").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -197,10 +231,12 @@ public class SelectCourseStudentActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         courseListNotEnroll.clear();
                         for (QueryDocumentSnapshot document: task.getResult()) {
-                            Course course = document.toObject(Course.class);
-                            if (course.getName().contains(query)) {
-                                Log.d("CourseCodeOrName", "Course Name Found In FireStore -> " + course.getName() + " vs query "  + query);
-                                courseListNotEnroll.add(course);
+                            if (!courseEnrollList.contains(document.getId())) {
+                                Course course = document.toObject(Course.class);
+                                if (course.getName().contains(query)) {
+                                    Log.d("CourseCodeOrName", "Course Name Found In FireStore -> " + course.getName() + " vs query "  + query);
+                                    courseListNotEnroll.add(course);
+                                }
                             }
                         }
                         courseAdapterAvailableCourses.notifyDataSetChanged();
@@ -209,6 +245,23 @@ public class SelectCourseStudentActivity extends AppCompatActivity {
             });
         }
     };
+
+    private String getFullDayOfWeek(String dayShortcut) {
+        switch (dayShortcut) {
+            case "Mon":
+                return "Monday";
+            case "Tues":
+                return "Tuesday";
+            case "Wed":
+                return "Wednesday";
+            case "Thur":
+                return "Thursday";
+            case "Fri":
+                return "Friday";
+            default:
+                return "All";
+        }
+    }
 
     private void openHomePageActivity () {
         Intent intentHomeActivity = new Intent(this, HomeStudentActivity.class);

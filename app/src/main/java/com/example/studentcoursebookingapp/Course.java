@@ -14,8 +14,6 @@ import java.util.List;
 public class Course implements Parcelable {
     private String name, courseId, courseDescription;
     private String studentCapacity; // initially a int but it cause some problems
-    private int courseStartHour1, courseStartMinute1, courseEndHour1, courseEndMinute1,
-            courseStartHour2, courseStartMinute2, courseEndHour2, courseEndMinute2 ;//courseDay1, courseDay2;
     private String courseDay1;
     private String courseDay2;
     private String courseStartTime1;
@@ -36,6 +34,8 @@ public class Course implements Parcelable {
         this.courseId = courseId;
         this.courseDescription = courseDescription;
         this.studentCapacity = studentCapacity;
+        this.courseDay1 = "";
+        this.courseDay2 = "";
     }
 
     protected Course(Parcel in) {
@@ -142,12 +142,7 @@ public class Course implements Parcelable {
         return courseEndTime2;
     }
 
-    //    public int getCourseDay1() {
-//        return courseDay1;
-//    }
-//
-//    public int getCourseDay2() {
-//        return courseDay2;
-//    }
+    public String getCourseDay1() { return courseDay1; }
 
+    public String getCourseDay2() { return courseDay2; }
 }
