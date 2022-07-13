@@ -78,10 +78,14 @@ public class CourseAdapterUnEnroll extends RecyclerView.Adapter<CourseAdapterUnE
                     Course course = courseArrayList.get(position);
 
 
-                    // TODO
+                    //---Atomically add new student to the "students" array field in the course document
+                    String userUID = mAuth.getCurrentUser().getUid();
+                    //
+
                     // add the course to the courseEnroll field of the user
                     Log.d("ClickWork", String.valueOf(mAuth.getCurrentUser().getUid()));
                     DocumentReference userDoc = db.collection("users").document(mAuth.getCurrentUser().getUid());
+
                     db.collection("courses").whereEqualTo(CourseField.courseId.toString(),
                             course.getCourseId()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -90,6 +94,9 @@ public class CourseAdapterUnEnroll extends RecyclerView.Adapter<CourseAdapterUnE
                                 DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
                                 String documentID = documentSnapshot.getId();
                                 userDoc.update(UserField.courseEnroll.toString(), FieldValue.arrayRemove(documentID));
+                                //--
+                                DocumentReference courseStudents = db.collection("courses").document(documentID);
+                                courseStudents.update("students", FieldValue.arrayRemove(userUID));
                             }
                         }
                     });

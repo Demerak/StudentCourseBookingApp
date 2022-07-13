@@ -12,6 +12,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -23,6 +25,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
@@ -44,12 +47,11 @@ public class EditCourseInstructor extends AppCompatActivity implements AdapterVi
 
     private Course course, tempCourse;
     private FirebaseFirestore db;
-
+    private LinearLayout enrolledStudents;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_course_instructor);
-
         Intent intent = getIntent();
         course = intent.getParcelableExtra("course");
 
@@ -89,6 +91,10 @@ public class EditCourseInstructor extends AppCompatActivity implements AdapterVi
 
         db = FirebaseFirestore.getInstance();
 
+        // display students
+        enrolledStudents = findViewById(R.id.enrolledStudentsLL);
+        displayStudents();
+
         // find view in layout
         newDesc = findViewById(R.id.new_course_desc_inst);
         newCap = findViewById(R.id.new_course_capacity_inst);
@@ -99,6 +105,7 @@ public class EditCourseInstructor extends AppCompatActivity implements AdapterVi
         // buttons
         applyChangeBtn = findViewById(R.id.applyChangeInstBtn);
         returnHomeBtn = findViewById(R.id.returnHomeInstBtn);
+
 
         startTimeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,6 +163,80 @@ public class EditCourseInstructor extends AppCompatActivity implements AdapterVi
                 goBackToHomeActivity();
             }
         });
+    }
+
+    private void displayStudents(){
+        // Gets course UID, then an array of user UID, then for each user UID, get user document and add a text view of the student's name to the linear layout nested in the scroll view on the main view
+
+        // Get course UID
+        db.collection("courses").whereEqualTo(CourseField.courseId.toString(), course.getCourseId())
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                            String documentID = task.getResult().getDocuments().get(0).getId();
+                            // Get User UID Array
+                            db.collection("courses")
+                                    .document(documentID)
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                           @Override
+                                           public void onComplete(@NonNull Task<DocumentSnapshot> courseTask) {
+                                               if (courseTask.isSuccessful()) {
+                                                   DocumentSnapshot courseDocument = courseTask.getResult();
+                                                   if (courseDocument.exists()) {
+                                                       List<String> students = (List<String>) courseDocument.get("students");
+
+                                                       if (students != null){
+                                                           for (int i = 0; i < students.size(); i++) {
+                                                               String studentUID = students.get(i);
+
+                                                               // Get User Name
+                                                               db.collection("users")
+                                                                       .document(studentUID)
+                                                                       .get()
+                                                                       .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                                              @Override
+                                                                              public void onComplete(@NonNull Task<DocumentSnapshot> userTask) {
+                                                                                  if (userTask.isSuccessful()) {
+                                                                                      DocumentSnapshot userDocument = userTask.getResult();
+                                                                                      if (userDocument.exists()) {
+                                                                                          //Write user name to screen
+                                                                                          String studentName = userDocument.get("name").toString();
+                                                                                          TextView tv = new TextView(EditCourseInstructor.this);
+                                                                                          tv.setText(studentName);
+                                                                                          enrolledStudents.addView(tv);
+                                                                                      }
+                                                                                      else {
+                                                                                        Log.d("TAG", "No such user");
+                                                                                      }
+                                                                              } else {
+                                                                                      Log.d("TAG", "get failed with ", task.getException());
+                                                                                  }
+                                                                              }
+                                                                       });
+                                                           }
+                                                       } else {
+                                                           String stu = "no students enrolled";
+                                                           TextView tv = new TextView(EditCourseInstructor.this);
+                                                           tv.setText(stu);
+                                                           enrolledStudents.addView(tv);
+                                                       }
+                                                   }
+                                                   else {
+                                                       Log.d("TAG", "No such document");
+                                                   }
+                                               } else {
+                                                   Log.d("TAG", "get failed with ", task.getException());
+                                               }
+                                           }
+                                       }
+                                    );
+                        } else {
+                            Toast.makeText(EditCourseInstructor.this, "Failed",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     private void popTimePicker(View view, int btn) {

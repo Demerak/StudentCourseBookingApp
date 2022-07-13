@@ -85,18 +85,28 @@ public class CourseAdapterEnroll extends RecyclerView.Adapter<CourseAdapterEnrol
 
                     // add the course to the courseEnroll field of the user
                     Log.d("ClickWork", String.valueOf(mAuth.getCurrentUser().getUid()));
+
+                    //---Atomically add new student to the "students" array field in the course document
+                    String userUID = mAuth.getCurrentUser().getUid();
+                    //---
                     DocumentReference userDoc = db.collection("users").document(mAuth.getCurrentUser().getUid());
                     db.collection("courses").whereEqualTo(CourseField.courseId.toString(),
                             course.getCourseId()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful() && !task.getResult().isEmpty()) {
-                                DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
-                                String documentID = documentSnapshot.getId();
-                                userDoc.update(UserField.courseEnroll.toString(), FieldValue.arrayUnion(documentID));
-                            }
-                        }
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                                        DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
+                                        String documentID = documentSnapshot.getId();
+                                        userDoc.update(UserField.courseEnroll.toString(), FieldValue.arrayUnion(documentID));
+
+                                        //--
+                                        DocumentReference courseStudents = db.collection("courses").document(documentID);
+                                        courseStudents.update("students", FieldValue.arrayUnion(userUID));
+
+                                    }
+                                }
                     });
+
 
                     // probably not the best way to do it but it's working
                     Intent editCourseIntent = new Intent(v.getContext(), SelectCourseStudentActivity.class);

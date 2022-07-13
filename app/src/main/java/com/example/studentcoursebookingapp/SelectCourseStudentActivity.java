@@ -26,6 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firestore.v1.WriteResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -138,6 +139,7 @@ public class SelectCourseStudentActivity extends AppCompatActivity {
                                     for (DocumentSnapshot document: value.getDocuments()) {
                                         Log.d("SUCCESS", document.getId() + " => " + document.getData() + document.toObject(Course.class).getName());
                                         if (courseEnrollList != null) {
+
                                             if (courseEnrollList.contains(document.getId())) {
                                                 courseListEnrolledIn.add(document.toObject(Course.class));
                                             } else {
@@ -159,13 +161,11 @@ public class SelectCourseStudentActivity extends AppCompatActivity {
         });
     }
 
+
     private void searchCourse() {
         // Can currently only search by either the course name/code or by day of the week
 
         Log.d("courseEnroll", courseEnrollList.toString());
-
-
-
 
         String query = searchText.getText().toString().trim();
         Log.d("Text", query);
