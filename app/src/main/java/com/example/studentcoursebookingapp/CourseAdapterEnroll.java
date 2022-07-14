@@ -26,7 +26,9 @@ import com.google.firestore.v1.WriteResult;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Observable;
 
 public class CourseAdapterEnroll extends RecyclerView.Adapter<CourseAdapterEnroll.MyViewHolder>{
 
@@ -38,12 +40,13 @@ public class CourseAdapterEnroll extends RecyclerView.Adapter<CourseAdapterEnrol
         this.courseArrayList = userArrayList;
     }
 
+    ViewGroup thisParent;
     @NonNull
     @Override
     public CourseAdapterEnroll.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View v = LayoutInflater.from(context).inflate(R.layout.course_list_item_student_enroll, parent, false);
-
+        thisParent = parent;
         return new MyViewHolder(v, courseArrayList);
     }
 
@@ -89,19 +92,228 @@ public class CourseAdapterEnroll extends RecyclerView.Adapter<CourseAdapterEnrol
                     //---Atomically add new student to the "students" array field in the course document
                     String userUID = mAuth.getCurrentUser().getUid();
                     //---
-                    DocumentReference userDoc = db.collection("users").document(mAuth.getCurrentUser().getUid());
+                    DocumentReference userDoc = db.collection("users").document(userUID);
+
                     db.collection("courses").whereEqualTo(CourseField.courseId.toString(),
                             course.getCourseId()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                     if (task.isSuccessful() && !task.getResult().isEmpty()) {
-                                        DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
-                                        String documentID = documentSnapshot.getId();
+                                        DocumentSnapshot courseDocument = task.getResult().getDocuments().get(0);
+                                        String documentID = courseDocument.getId();
+                                        DocumentReference courseDoc = db.collection("courses").document(documentID);
+
+                                        //*/ --
+                                        List<String> coursesWithOverlappingTimes = new ArrayList<String>();
+
+                                        db.collection("users")
+                                       .document(userUID)
+                                       .get()
+                                       .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                              @Override
+                                              public void onComplete(@NonNull Task<DocumentSnapshot> userTask) {
+                                                  if (userTask.isSuccessful()) {
+                                                      DocumentSnapshot userDocument = userTask.getResult();
+
+                                                      if (userDocument.exists()) {
+                                                          //
+                                                          List<String> coursesEnrolled = (List<String>) userDocument.get("courseEnroll");
+
+                                                          if (coursesEnrolled.size() != 0){
+                                                              final int[] alldone = {0};
+
+                                                              for (int i = 0; i < coursesEnrolled.size(); i++) { //while loop to ensure all complete listeners are finished.
+
+                                                                  String courseUID = coursesEnrolled.get(i);
+
+                                                                   db.collection("courses")
+                                                                   .document(courseUID)
+                                                                   .get()
+                                                                   .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                                          @Override
+                                                                          public void onComplete(@NonNull Task<DocumentSnapshot> courseTask) {
+                                                                              if (courseTask.isSuccessful()) {
+                                                                                  DocumentSnapshot enrolledCourseDocument = courseTask.getResult();
+                                                                                  if (enrolledCourseDocument.exists()) {
+                                                                                      // Determine time conflicts, and must test if course has a day associated with it
+                                                                                      if (courseDocument.contains("courseDay2") && enrolledCourseDocument.contains("courseDay2")){
+                                                                                          String newCourseDay1 = courseDocument.get("courseDay1").toString();
+                                                                                          Float newCourseStartTime1 = Float.parseFloat(courseDocument.get("courseStartTime1").toString().replace(':','.'));
+                                                                                          Float newCourseEndTime1 = Float.parseFloat(courseDocument.get("courseEndTime1").toString().replace(':','.'));
+                                                                                          String enrolledCourseDay1 = enrolledCourseDocument.get("courseDay1").toString();
+                                                                                          Float enrolledCourseStartTime1 = Float.parseFloat(enrolledCourseDocument.get("courseStartTime1").toString().replace(':','.'));
+                                                                                          Float enrolledCourseEndTime1 = Float.parseFloat(enrolledCourseDocument.get("courseEndTime1").toString().replace(':','.'));
+
+                                                                                          String newCourseDay2 = courseDocument.get("courseDay2").toString();
+                                                                                          Float newCourseStartTime2 = Float.parseFloat(courseDocument.get("courseStartTime2").toString().replace(':','.'));
+                                                                                          Float newCourseEndTime2 = Float.parseFloat(courseDocument.get("courseEndTime2").toString().replace(':','.'));
+                                                                                          String enrolledCourseDay2 = enrolledCourseDocument.get("courseDay2").toString();
+                                                                                          Float enrolledCourseStartTime2 = Float.parseFloat(enrolledCourseDocument.get("courseStartTime2").toString().replace(':','.'));
+                                                                                          Float enrolledCourseEndTime2 = Float.parseFloat(enrolledCourseDocument.get("courseEndTime2").toString().replace(':','.'));
+
+                                                                                          if (
+                                                                                              (newCourseDay1.equals(enrolledCourseDay1)&&
+                                                                                              ((newCourseStartTime1>enrolledCourseStartTime1 && newCourseStartTime1<enrolledCourseEndTime1) ||
+                                                                                              (newCourseEndTime1>enrolledCourseStartTime1 && newCourseEndTime1<enrolledCourseEndTime1))) ||
+
+                                                                                              (newCourseDay2.equals(enrolledCourseDay2)&&
+                                                                                              ((newCourseStartTime2>enrolledCourseStartTime2 && newCourseStartTime2<enrolledCourseEndTime2) ||
+                                                                                              (newCourseEndTime2>enrolledCourseStartTime2 && newCourseEndTime2<enrolledCourseEndTime2))) ||
+
+                                                                                              (newCourseDay1.equals(enrolledCourseDay2)&&
+                                                                                              ((newCourseStartTime1>enrolledCourseStartTime2 && newCourseStartTime1<enrolledCourseEndTime2) ||
+                                                                                              (newCourseEndTime1>enrolledCourseStartTime2 && newCourseEndTime1<enrolledCourseEndTime2))) ||
+
+                                                                                              (newCourseDay2.equals(enrolledCourseDay1)&&
+                                                                                              ((newCourseStartTime2>enrolledCourseStartTime1 && newCourseStartTime2<enrolledCourseEndTime1) ||
+                                                                                              (newCourseEndTime2>enrolledCourseStartTime1 && newCourseEndTime2<enrolledCourseEndTime1)))
+
+                                                                                          ){
+                                                                                              coursesWithOverlappingTimes.add(enrolledCourseDocument.get("courseId").toString());
+                                                                                          }
+
+                                                                                      }
+                                                                                      else if (courseDocument.contains("courseDay1") && enrolledCourseDocument.contains("courseDay2")) {
+                                                                                          String newCourseDay1 = courseDocument.get("courseDay1").toString();
+                                                                                          Float newCourseStartTime1 = Float.parseFloat(courseDocument.get("courseStartTime1").toString().replace(':','.'));
+                                                                                          Float newCourseEndTime1 = Float.parseFloat(courseDocument.get("courseEndTime1").toString().replace(':','.'));
+                                                                                          String enrolledCourseDay1 = enrolledCourseDocument.get("courseDay1").toString();
+                                                                                          Float enrolledCourseStartTime1 = Float.parseFloat(enrolledCourseDocument.get("courseStartTime1").toString().replace(':','.'));
+                                                                                          Float enrolledCourseEndTime1 = Float.parseFloat(enrolledCourseDocument.get("courseEndTime1").toString().replace(':','.'));
+                                                                                          String enrolledCourseDay2 = enrolledCourseDocument.get("courseDay2").toString();
+                                                                                          Float enrolledCourseStartTime2 = Float.parseFloat(enrolledCourseDocument.get("courseStartTime2").toString().replace(':','.'));
+                                                                                          Float enrolledCourseEndTime2 = Float.parseFloat(enrolledCourseDocument.get("courseEndTime2").toString().replace(':','.'));
+
+                                                                                          if (
+                                                                                              (newCourseDay1.equals(enrolledCourseDay1)&&
+                                                                                              ((newCourseStartTime1>enrolledCourseStartTime1 && newCourseStartTime1<enrolledCourseEndTime1) ||
+                                                                                              (newCourseEndTime1>enrolledCourseStartTime1 && newCourseEndTime1<enrolledCourseEndTime1))) ||
+
+                                                                                              (newCourseDay1.equals(enrolledCourseDay2)&&
+                                                                                              ((newCourseStartTime1>enrolledCourseStartTime2 && newCourseStartTime1<enrolledCourseEndTime2) ||
+                                                                                              (newCourseEndTime1>enrolledCourseStartTime2 && newCourseEndTime1<enrolledCourseEndTime2)))
+                                                                                          ){
+                                                                                              coursesWithOverlappingTimes.add(enrolledCourseDocument.get("courseId").toString());
+                                                                                          }
+
+                                                                                      } else if (courseDocument.contains("courseDay2") && enrolledCourseDocument.contains("courseDay1")) {
+                                                                                          String newCourseDay1 = courseDocument.get("courseDay1").toString();
+                                                                                          Float newCourseStartTime1 = Float.parseFloat(courseDocument.get("courseStartTime1").toString().replace(':','.'));
+                                                                                          Float newCourseEndTime1 = Float.parseFloat(courseDocument.get("courseEndTime1").toString().replace(':','.'));
+                                                                                          String newCourseDay2 = courseDocument.get("courseDay2").toString();
+                                                                                          Float newCourseStartTime2 = Float.parseFloat(courseDocument.get("courseStartTime2").toString().replace(':','.'));
+                                                                                          Float newCourseEndTime2 = Float.parseFloat(courseDocument.get("courseEndTime2").toString().replace(':','.'));
+                                                                                          String enrolledCourseDay1 = enrolledCourseDocument.get("courseDay1").toString();
+                                                                                          Float enrolledCourseStartTime1 = Float.parseFloat(enrolledCourseDocument.get("courseStartTime1").toString().replace(':','.'));
+                                                                                          Float enrolledCourseEndTime1 = Float.parseFloat(enrolledCourseDocument.get("courseEndTime1").toString().replace(':','.'));
+
+                                                                                          if (
+                                                                                              (newCourseDay1.equals(enrolledCourseDay1)&&
+                                                                                              ((newCourseStartTime1>enrolledCourseStartTime1 && newCourseStartTime1<enrolledCourseEndTime1) ||
+                                                                                              (newCourseEndTime1>enrolledCourseStartTime1 && newCourseEndTime1<enrolledCourseEndTime1))) ||
+
+                                                                                              (newCourseDay2.equals(enrolledCourseDay1)&&
+                                                                                              ((newCourseStartTime2>enrolledCourseStartTime1 && newCourseStartTime2<enrolledCourseEndTime1) ||
+                                                                                              (newCourseEndTime2>enrolledCourseStartTime1 && newCourseEndTime2<enrolledCourseEndTime1)))
+                                                                                          ){
+                                                                                              coursesWithOverlappingTimes.add(enrolledCourseDocument.get("courseId").toString());
+                                                                                          }
+                                                                                      } else if (courseDocument.contains("courseDay1") && enrolledCourseDocument.contains("courseDay1")) {
+                                                                                          String newCourseDay1 = courseDocument.get("courseDay1").toString();
+                                                                                          Float newCourseStartTime1 = Float.parseFloat(courseDocument.get("courseStartTime1").toString().replace(':','.'));
+                                                                                          Float newCourseEndTime1 = Float.parseFloat(courseDocument.get("courseEndTime1").toString().replace(':','.'));
+
+                                                                                          String enrolledCourseDay1 = enrolledCourseDocument.get("courseDay1").toString();
+                                                                                          Float enrolledCourseStartTime1 = Float.parseFloat(enrolledCourseDocument.get("courseStartTime1").toString().replace(':','.'));
+                                                                                          Float enrolledCourseEndTime1 = Float.parseFloat(enrolledCourseDocument.get("courseEndTime1").toString().replace(':','.'));
+
+                                                                                          if (
+                                                                                              (newCourseDay1.equals(enrolledCourseDay1)&&
+                                                                                              ((newCourseStartTime1>enrolledCourseStartTime1 && newCourseStartTime1<enrolledCourseEndTime1) ||
+                                                                                              (newCourseEndTime1>enrolledCourseStartTime1 && newCourseEndTime1<enrolledCourseEndTime1)))
+                                                                                          ){
+                                                                                              coursesWithOverlappingTimes.add(enrolledCourseDocument.get("courseId").toString());
+                                                                                          }
+                                                                                      }
+                                                                                  }
+                                                                                  else {
+                                                                                      Log.d("TAG", "No such document");
+
+
+                                                                                  }
+                                                                              } else {
+                                                                                  Log.d("TAG", "get failed with ", task.getException());
+                                                                              }
+                                                                              alldone[0]++;
+                                                                              if(alldone[0] == coursesEnrolled.size()){
+                                                                                  if (coursesWithOverlappingTimes.size() == 0){
+                                                                                      //-- add student UID to course document "students" array field
+                                                                                      DocumentReference courseDoc = db.collection("courses").document(documentID);
+                                                                                      courseDoc.update("students", FieldValue.arrayUnion(userUID));
+
+                                                                                      //enroll course
+                                                                                      userDoc.update(UserField.courseEnroll.toString(), FieldValue.arrayUnion(documentID));
+
+                                                                                      Intent editCourseIntent = new Intent(v.getContext(), SelectCourseStudentActivity.class);
+                                                                                      editCourseIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                                                                      v.getContext().startActivity(editCourseIntent);
+                                                                                  } else {
+                                                                                      String toastStr = "Conflicts With: ";
+                                                                                      if (coursesWithOverlappingTimes.size()>1){
+                                                                                          for (int n = 0; n<coursesWithOverlappingTimes.size(); n++ ){
+                                                                                              toastStr += coursesWithOverlappingTimes.get(n) + ", ";
+                                                                                          }
+                                                                                      } else {
+                                                                                          toastStr += coursesWithOverlappingTimes.get(0);
+                                                                                      }
+                                                                                      Toast.makeText(SelectCourseStudentActivity.getContext(), toastStr ,Toast.LENGTH_SHORT).show();
+
+                                                                                      Intent editCourseIntent = new Intent(v.getContext(), SelectCourseStudentActivity.class);
+                                                                                      editCourseIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                                                                      v.getContext().startActivity(editCourseIntent);
+
+                                                                                  }
+                                                                              }
+                                                                          }
+                                                                   });
+                                                              }
+                                                          } else {
+                                                              //-- add student UID to course document "students" array field
+                                                              DocumentReference courseDoc = db.collection("courses").document(documentID);
+                                                              courseDoc.update("students", FieldValue.arrayUnion(userUID));
+
+                                                              //enroll course
+                                                              userDoc.update(UserField.courseEnroll.toString(), FieldValue.arrayUnion(documentID));
+
+                                                              Intent editCourseIntent = new Intent(v.getContext(), SelectCourseStudentActivity.class);
+                                                              editCourseIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                                              v.getContext().startActivity(editCourseIntent);
+                                                          }
+                                                      } else {
+                                                          //-- add student UID to course document "students" array field
+                                                          DocumentReference courseDoc = db.collection("courses").document(documentID);
+                                                          courseDoc.update("students", FieldValue.arrayUnion(userUID));
+
+                                                          //enroll course
+                                                          userDoc.update(UserField.courseEnroll.toString(), FieldValue.arrayUnion(documentID));
+
+                                                          Intent editCourseIntent = new Intent(v.getContext(), SelectCourseStudentActivity.class);
+                                                          editCourseIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                                          v.getContext().startActivity(editCourseIntent);
+                                                      }
+                                                  }
+                                              }
+                                       });
+
+                                        // */
+                                        /*
+
                                         userDoc.update(UserField.courseEnroll.toString(), FieldValue.arrayUnion(documentID));
 
-                                        //--
-                                        DocumentReference courseStudents = db.collection("courses").document(documentID);
-                                        courseStudents.update("students", FieldValue.arrayUnion(userUID));
+                                        //-- add student UID to course document "students" array field
+                                        DocumentReference course = db.collection("courses").document(documentID);
+                                        course.update("students", FieldValue.arrayUnion(userUID));
+                                        //*/
 
                                     }
                                 }
@@ -109,9 +321,12 @@ public class CourseAdapterEnroll extends RecyclerView.Adapter<CourseAdapterEnrol
 
 
                     // probably not the best way to do it but it's working
+                    /*
                     Intent editCourseIntent = new Intent(v.getContext(), SelectCourseStudentActivity.class);
                     editCourseIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     v.getContext().startActivity(editCourseIntent);
+                    */
+
                 }
             });
         }

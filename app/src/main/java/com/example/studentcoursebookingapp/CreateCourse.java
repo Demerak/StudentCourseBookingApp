@@ -51,7 +51,18 @@ public class CreateCourse extends AppCompatActivity implements View.OnClickListe
 
         CollectionReference dbCourse = db.collection("courses");
         Course course = new Course (name,number);
+        /*
+        course.setCourseDay1("Sunday");
+        course.setCourseStartTime1("24:00");
+        course.setCourseEndTime1("24:00");
 
+        course.setCourseDay2("Sunday");
+        course.setCourseStartTime2("24:00");
+        course.setCourseEndTime2("24:00");
+
+        course.setCourseDescription("none");
+        course.setStudentCapacity("0");
+        //*/
         dbCourse.add(course).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {

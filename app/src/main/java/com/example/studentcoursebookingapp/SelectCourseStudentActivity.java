@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -48,10 +49,16 @@ public class SelectCourseStudentActivity extends AppCompatActivity {
     private List<String> courseEnrollList;
     private Spinner dayOfWeekSpinner;
     private ArrayAdapter<String> spinnerAdapter;
+    private static SelectCourseStudentActivity instance;
+
+    public static Context getContext() {
+        return instance;
+    }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        instance = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_course_student);
 
