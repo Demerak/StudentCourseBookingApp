@@ -119,7 +119,7 @@ public class CourseAdapterEnroll extends RecyclerView.Adapter<CourseAdapterEnrol
                                                           //
                                                           List<String> coursesEnrolled = (List<String>) userDocument.get("courseEnroll");
 
-                                                          if (coursesEnrolled.size() != 0){
+                                                          if (coursesEnrolled !=null && coursesEnrolled.size() != 0){
                                                               final int[] alldone = {0};
 
                                                               for (int i = 0; i < coursesEnrolled.size(); i++) { //while loop to ensure all complete listeners are finished.
