@@ -153,20 +153,20 @@ public class CourseAdapterEnroll extends RecyclerView.Adapter<CourseAdapterEnrol
 
                                                                                           if (
                                                                                               (newCourseDay1.equals(enrolledCourseDay1)&&
-                                                                                              ((newCourseStartTime1>enrolledCourseStartTime1 && newCourseStartTime1<enrolledCourseEndTime1) ||
-                                                                                              (newCourseEndTime1>enrolledCourseStartTime1 && newCourseEndTime1<enrolledCourseEndTime1))) ||
+                                                                                              ((newCourseStartTime1>=enrolledCourseStartTime1 && newCourseStartTime1<=enrolledCourseEndTime1) ||
+                                                                                              (newCourseEndTime1>=enrolledCourseStartTime1 && newCourseEndTime1<=enrolledCourseEndTime1))) ||
 
                                                                                               (newCourseDay2.equals(enrolledCourseDay2)&&
-                                                                                              ((newCourseStartTime2>enrolledCourseStartTime2 && newCourseStartTime2<enrolledCourseEndTime2) ||
-                                                                                              (newCourseEndTime2>enrolledCourseStartTime2 && newCourseEndTime2<enrolledCourseEndTime2))) ||
+                                                                                              ((newCourseStartTime2>=enrolledCourseStartTime2 && newCourseStartTime2<=enrolledCourseEndTime2) ||
+                                                                                              (newCourseEndTime2>=enrolledCourseStartTime2 && newCourseEndTime2<=enrolledCourseEndTime2))) ||
 
                                                                                               (newCourseDay1.equals(enrolledCourseDay2)&&
-                                                                                              ((newCourseStartTime1>enrolledCourseStartTime2 && newCourseStartTime1<enrolledCourseEndTime2) ||
-                                                                                              (newCourseEndTime1>enrolledCourseStartTime2 && newCourseEndTime1<enrolledCourseEndTime2))) ||
+                                                                                              ((newCourseStartTime1>=enrolledCourseStartTime2 && newCourseStartTime1<=enrolledCourseEndTime2) ||
+                                                                                              (newCourseEndTime1>=enrolledCourseStartTime2 && newCourseEndTime1<=enrolledCourseEndTime2))) ||
 
                                                                                               (newCourseDay2.equals(enrolledCourseDay1)&&
-                                                                                              ((newCourseStartTime2>enrolledCourseStartTime1 && newCourseStartTime2<enrolledCourseEndTime1) ||
-                                                                                              (newCourseEndTime2>enrolledCourseStartTime1 && newCourseEndTime2<enrolledCourseEndTime1)))
+                                                                                              ((newCourseStartTime2>=enrolledCourseStartTime1 && newCourseStartTime2<=enrolledCourseEndTime1) ||
+                                                                                              (newCourseEndTime2>=enrolledCourseStartTime1 && newCourseEndTime2<=enrolledCourseEndTime1)))
 
                                                                                           ){
                                                                                               coursesWithOverlappingTimes.add(enrolledCourseDocument.get("courseId").toString());
@@ -186,12 +186,12 @@ public class CourseAdapterEnroll extends RecyclerView.Adapter<CourseAdapterEnrol
 
                                                                                           if (
                                                                                               (newCourseDay1.equals(enrolledCourseDay1)&&
-                                                                                              ((newCourseStartTime1>enrolledCourseStartTime1 && newCourseStartTime1<enrolledCourseEndTime1) ||
-                                                                                              (newCourseEndTime1>enrolledCourseStartTime1 && newCourseEndTime1<enrolledCourseEndTime1))) ||
+                                                                                              ((newCourseStartTime1>=enrolledCourseStartTime1 && newCourseStartTime1<=enrolledCourseEndTime1) ||
+                                                                                              (newCourseEndTime1>=enrolledCourseStartTime1 && newCourseEndTime1<=enrolledCourseEndTime1))) ||
 
                                                                                               (newCourseDay1.equals(enrolledCourseDay2)&&
-                                                                                              ((newCourseStartTime1>enrolledCourseStartTime2 && newCourseStartTime1<enrolledCourseEndTime2) ||
-                                                                                              (newCourseEndTime1>enrolledCourseStartTime2 && newCourseEndTime1<enrolledCourseEndTime2)))
+                                                                                              ((newCourseStartTime1>=enrolledCourseStartTime2 && newCourseStartTime1<=enrolledCourseEndTime2) ||
+                                                                                              (newCourseEndTime1>=enrolledCourseStartTime2 && newCourseEndTime1<=enrolledCourseEndTime2)))
                                                                                           ){
                                                                                               coursesWithOverlappingTimes.add(enrolledCourseDocument.get("courseId").toString());
                                                                                           }
@@ -209,12 +209,12 @@ public class CourseAdapterEnroll extends RecyclerView.Adapter<CourseAdapterEnrol
 
                                                                                           if (
                                                                                               (newCourseDay1.equals(enrolledCourseDay1)&&
-                                                                                              ((newCourseStartTime1>enrolledCourseStartTime1 && newCourseStartTime1<enrolledCourseEndTime1) ||
-                                                                                              (newCourseEndTime1>enrolledCourseStartTime1 && newCourseEndTime1<enrolledCourseEndTime1))) ||
+                                                                                              ((newCourseStartTime1>=enrolledCourseStartTime1 && newCourseStartTime1<=enrolledCourseEndTime1) ||
+                                                                                              (newCourseEndTime1>=enrolledCourseStartTime1 && newCourseEndTime1<=enrolledCourseEndTime1))) ||
 
                                                                                               (newCourseDay2.equals(enrolledCourseDay1)&&
-                                                                                              ((newCourseStartTime2>enrolledCourseStartTime1 && newCourseStartTime2<enrolledCourseEndTime1) ||
-                                                                                              (newCourseEndTime2>enrolledCourseStartTime1 && newCourseEndTime2<enrolledCourseEndTime1)))
+                                                                                              ((newCourseStartTime2>=enrolledCourseStartTime1 && newCourseStartTime2<=enrolledCourseEndTime1) ||
+                                                                                              (newCourseEndTime2>=enrolledCourseStartTime1 && newCourseEndTime2<=enrolledCourseEndTime1)))
                                                                                           ){
                                                                                               coursesWithOverlappingTimes.add(enrolledCourseDocument.get("courseId").toString());
                                                                                           }
@@ -229,8 +229,8 @@ public class CourseAdapterEnroll extends RecyclerView.Adapter<CourseAdapterEnrol
 
                                                                                           if (
                                                                                               (newCourseDay1.equals(enrolledCourseDay1)&&
-                                                                                              ((newCourseStartTime1>enrolledCourseStartTime1 && newCourseStartTime1<enrolledCourseEndTime1) ||
-                                                                                              (newCourseEndTime1>enrolledCourseStartTime1 && newCourseEndTime1<enrolledCourseEndTime1)))
+                                                                                              ((newCourseStartTime1>=enrolledCourseStartTime1 && newCourseStartTime1<=enrolledCourseEndTime1) ||
+                                                                                              (newCourseEndTime1>=enrolledCourseStartTime1 && newCourseEndTime1<=enrolledCourseEndTime1)))
                                                                                           ){
                                                                                               coursesWithOverlappingTimes.add(enrolledCourseDocument.get("courseId").toString());
                                                                                           }
