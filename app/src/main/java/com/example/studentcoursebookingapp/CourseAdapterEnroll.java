@@ -152,21 +152,29 @@ public class CourseAdapterEnroll extends RecyclerView.Adapter<CourseAdapterEnrol
                                                                                           Float enrolledCourseEndTime2 = Float.parseFloat(enrolledCourseDocument.get("courseEndTime2").toString().replace(':','.'));
 
                                                                                           if (
-                                                                                              (newCourseDay1.equals(enrolledCourseDay1)&&
-                                                                                              ((newCourseStartTime1>=enrolledCourseStartTime1 && newCourseStartTime1<=enrolledCourseEndTime1) ||
-                                                                                              (newCourseEndTime1>=enrolledCourseStartTime1 && newCourseEndTime1<=enrolledCourseEndTime1))) ||
+                                                                                              (newCourseDay1.equals(enrolledCourseDay1)&& // compare day 1
+                                                                                              ((newCourseStartTime1>=enrolledCourseStartTime1 && newCourseStartTime1<=enrolledCourseEndTime1) || // start of new course during enrolled course
+                                                                                              (newCourseEndTime1>=enrolledCourseStartTime1 && newCourseEndTime1<=enrolledCourseEndTime1) || // end of new course during enrolled course
+                                                                                              (newCourseStartTime1<=enrolledCourseStartTime1 && newCourseEndTime1>=enrolledCourseEndTime1)) // new course starts before and ends after enrolled course
+                                                                                              ) ||
 
                                                                                               (newCourseDay2.equals(enrolledCourseDay2)&&
                                                                                               ((newCourseStartTime2>=enrolledCourseStartTime2 && newCourseStartTime2<=enrolledCourseEndTime2) ||
-                                                                                              (newCourseEndTime2>=enrolledCourseStartTime2 && newCourseEndTime2<=enrolledCourseEndTime2))) ||
+                                                                                              (newCourseEndTime2>=enrolledCourseStartTime2 && newCourseEndTime2<=enrolledCourseEndTime2) ||
+                                                                                              (newCourseStartTime2<=enrolledCourseStartTime2 && newCourseEndTime2>=enrolledCourseEndTime2))
+                                                                                              ) ||
 
                                                                                               (newCourseDay1.equals(enrolledCourseDay2)&&
                                                                                               ((newCourseStartTime1>=enrolledCourseStartTime2 && newCourseStartTime1<=enrolledCourseEndTime2) ||
-                                                                                              (newCourseEndTime1>=enrolledCourseStartTime2 && newCourseEndTime1<=enrolledCourseEndTime2))) ||
+                                                                                              (newCourseEndTime1>=enrolledCourseStartTime2 && newCourseEndTime1<=enrolledCourseEndTime2) ||
+                                                                                              (newCourseStartTime1<=enrolledCourseStartTime2 && newCourseEndTime1>=enrolledCourseEndTime2))
+                                                                                              ) ||
 
                                                                                               (newCourseDay2.equals(enrolledCourseDay1)&&
                                                                                               ((newCourseStartTime2>=enrolledCourseStartTime1 && newCourseStartTime2<=enrolledCourseEndTime1) ||
-                                                                                              (newCourseEndTime2>=enrolledCourseStartTime1 && newCourseEndTime2<=enrolledCourseEndTime1)))
+                                                                                              (newCourseEndTime2>=enrolledCourseStartTime1 && newCourseEndTime2<=enrolledCourseEndTime1) ||
+                                                                                              (newCourseStartTime2<=enrolledCourseStartTime1 && newCourseEndTime2>=enrolledCourseEndTime1))
+                                                                                              )
 
                                                                                           ){
                                                                                               coursesWithOverlappingTimes.add(enrolledCourseDocument.get("courseId").toString());
@@ -185,13 +193,17 @@ public class CourseAdapterEnroll extends RecyclerView.Adapter<CourseAdapterEnrol
                                                                                           Float enrolledCourseEndTime2 = Float.parseFloat(enrolledCourseDocument.get("courseEndTime2").toString().replace(':','.'));
 
                                                                                           if (
-                                                                                              (newCourseDay1.equals(enrolledCourseDay1)&&
-                                                                                              ((newCourseStartTime1>=enrolledCourseStartTime1 && newCourseStartTime1<=enrolledCourseEndTime1) ||
-                                                                                              (newCourseEndTime1>=enrolledCourseStartTime1 && newCourseEndTime1<=enrolledCourseEndTime1))) ||
+                                                                                              (newCourseDay1.equals(enrolledCourseDay1)&& // compare day 1
+                                                                                              ((newCourseStartTime1>=enrolledCourseStartTime1 && newCourseStartTime1<=enrolledCourseEndTime1) || // start of new course during enrolled course
+                                                                                              (newCourseEndTime1>=enrolledCourseStartTime1 && newCourseEndTime1<=enrolledCourseEndTime1) || // end of new course during enrolled course
+                                                                                              (newCourseStartTime1<=enrolledCourseStartTime1 && newCourseEndTime1>=enrolledCourseEndTime1)) // new course starts before and ends after enrolled course
+                                                                                              ) ||
 
                                                                                               (newCourseDay1.equals(enrolledCourseDay2)&&
                                                                                               ((newCourseStartTime1>=enrolledCourseStartTime2 && newCourseStartTime1<=enrolledCourseEndTime2) ||
-                                                                                              (newCourseEndTime1>=enrolledCourseStartTime2 && newCourseEndTime1<=enrolledCourseEndTime2)))
+                                                                                              (newCourseEndTime1>=enrolledCourseStartTime2 && newCourseEndTime1<=enrolledCourseEndTime2) ||
+                                                                                              (newCourseStartTime1<=enrolledCourseStartTime2 && newCourseEndTime1>=enrolledCourseEndTime2))
+                                                                                              )
                                                                                           ){
                                                                                               coursesWithOverlappingTimes.add(enrolledCourseDocument.get("courseId").toString());
                                                                                           }
@@ -208,13 +220,17 @@ public class CourseAdapterEnroll extends RecyclerView.Adapter<CourseAdapterEnrol
                                                                                           Float enrolledCourseEndTime1 = Float.parseFloat(enrolledCourseDocument.get("courseEndTime1").toString().replace(':','.'));
 
                                                                                           if (
-                                                                                              (newCourseDay1.equals(enrolledCourseDay1)&&
-                                                                                              ((newCourseStartTime1>=enrolledCourseStartTime1 && newCourseStartTime1<=enrolledCourseEndTime1) ||
-                                                                                              (newCourseEndTime1>=enrolledCourseStartTime1 && newCourseEndTime1<=enrolledCourseEndTime1))) ||
+                                                                                              (newCourseDay1.equals(enrolledCourseDay1)&& // compare day 1
+                                                                                              ((newCourseStartTime1>=enrolledCourseStartTime1 && newCourseStartTime1<=enrolledCourseEndTime1) || // start of new course during enrolled course
+                                                                                              (newCourseEndTime1>=enrolledCourseStartTime1 && newCourseEndTime1<=enrolledCourseEndTime1) || // end of new course during enrolled course
+                                                                                              (newCourseStartTime1<=enrolledCourseStartTime1 && newCourseEndTime1>=enrolledCourseEndTime1)) // new course starts before and ends after enrolled course
+                                                                                              ) ||
 
                                                                                               (newCourseDay2.equals(enrolledCourseDay1)&&
                                                                                               ((newCourseStartTime2>=enrolledCourseStartTime1 && newCourseStartTime2<=enrolledCourseEndTime1) ||
-                                                                                              (newCourseEndTime2>=enrolledCourseStartTime1 && newCourseEndTime2<=enrolledCourseEndTime1)))
+                                                                                              (newCourseEndTime2>=enrolledCourseStartTime1 && newCourseEndTime2<=enrolledCourseEndTime1) ||
+                                                                                              (newCourseStartTime2<=enrolledCourseStartTime1 && newCourseEndTime2>=enrolledCourseEndTime1))
+                                                                                              )
                                                                                           ){
                                                                                               coursesWithOverlappingTimes.add(enrolledCourseDocument.get("courseId").toString());
                                                                                           }
@@ -228,9 +244,10 @@ public class CourseAdapterEnroll extends RecyclerView.Adapter<CourseAdapterEnrol
                                                                                           Float enrolledCourseEndTime1 = Float.parseFloat(enrolledCourseDocument.get("courseEndTime1").toString().replace(':','.'));
 
                                                                                           if (
-                                                                                              (newCourseDay1.equals(enrolledCourseDay1)&&
-                                                                                              ((newCourseStartTime1>=enrolledCourseStartTime1 && newCourseStartTime1<=enrolledCourseEndTime1) ||
-                                                                                              (newCourseEndTime1>=enrolledCourseStartTime1 && newCourseEndTime1<=enrolledCourseEndTime1)))
+                                                                                              newCourseDay1.equals(enrolledCourseDay1)&& // compare day 1
+                                                                                              ((newCourseStartTime1>=enrolledCourseStartTime1 && newCourseStartTime1<=enrolledCourseEndTime1) || // start of new course during enrolled course
+                                                                                              (newCourseEndTime1>=enrolledCourseStartTime1 && newCourseEndTime1<=enrolledCourseEndTime1) || // end of new course during enrolled course
+                                                                                              (newCourseStartTime1<=enrolledCourseStartTime1 && newCourseEndTime1>=enrolledCourseEndTime1)) // new course starts before and ends after enrolled course
                                                                                           ){
                                                                                               coursesWithOverlappingTimes.add(enrolledCourseDocument.get("courseId").toString());
                                                                                           }
