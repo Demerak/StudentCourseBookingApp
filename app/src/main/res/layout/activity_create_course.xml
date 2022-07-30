@@ -84,24 +84,26 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/submit_entry_btn"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_width="220dp"
+                android:layout_height="55dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 android:background="@color/garnet"
                 android:backgroundTint="@color/garnet"
                 android:text="@string/submit_create"
                 android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:textSize="17sp" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/go_back_btn_create_course"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_width="220dp"
+                android:layout_height="55dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:background="@color/garnet"
                 android:text="Home"
                 android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:textSize="17sp" />
         </LinearLayout>
     </LinearLayout>
 

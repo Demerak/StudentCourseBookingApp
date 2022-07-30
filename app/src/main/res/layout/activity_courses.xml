@@ -100,7 +100,8 @@
             android:background="@color/garnet"
             android:fontFamily="sans-serif-medium"
             android:text="Create Course"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="17sp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/home_from_courses_page_btn"
@@ -110,6 +111,7 @@
             android:layout_marginBottom="16dp"
             android:background="@color/garnet"
             android:fontFamily="sans-serif-medium"
+            android:textSize="17sp"
             android:text="Home"
             android:textColor="@color/white"></androidx.appcompat.widget.AppCompatButton>
     </LinearLayout>
