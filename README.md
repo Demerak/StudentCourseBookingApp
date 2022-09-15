@@ -8,22 +8,22 @@ The student course booking app is backed by Cloud Firestore and used Firebase Au
 ### Some pictures 
 
 
-![Sign In Page](img/signIn.png)
+![Sign In Page](img/signIn.PNG)
 
-![Sign Up Page](img/signUp.png)
+![Sign Up Page](img/signUp.PNG)
 
-![Student home page](img/studentHomePage.png)
+![Student home page](img/studentHomePage.PNG)
 
-![The student course list page. The student can enroll and unenroll from a course, they can also search by course name or code and/or days of the week](img/studentCourseList.png)
+![The student course list page. The student can enroll and unenroll from a course, they can also search by course name or code and/or days of the week](img/studentCourseList.PNG)
 
-![Instructor home page](img/teacherHomePage.png)
+![Instructor home page](img/teacherHomePage.PNG)
 
-![Instructor can modify a class that he/she assigns himself/herself to](img/teacherHomePage.png)
+![Instructor can modify a class that he/she assigns himself/herself to](img/teacherEditingCourse.PNG)
 
-![Admin account home page, they can view all the account and view all the course](img/accountHomePage.png)
+![Admin account home page, they can view all the account and view all the course](img/adminHomePage.PNG)
 
-![Admin can search for any type of account and delete them](img/adminCanDeleteAccount.png)
+![Admin can search for any type of account and delete them](img/adminCanDeleteAccount.PNG)
 
-![Admin can view all the courses and edit them in a similar way that the instructor can edit courses. They can also delete courses](img/adminCourseList.png)
+![Admin can view all the courses and edit them in a similar way that the instructor can edit courses. They can also delete courses](img/adminCourseList.PNG)
 
-There are also additional pages ("activity")that weren't shown here.
+There are also additional pages ("activity") that weren't shown here.
